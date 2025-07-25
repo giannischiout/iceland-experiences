@@ -1,90 +1,95 @@
-'use client'
-import { useState } from 'react'
-import { cn } from '@/lib/utils'
-import dayjs from 'dayjs'
-import { SelectPickup } from '@/app/sections/home/filters/fields/select-pickup'
-import { getTruncatedValue } from '@/utills/get-truncated-value'
-import { locations, timeOptions } from '@/_mockup'
+"use client";
+import { useState } from "react";
+import { locations, timeOptions } from "@/_mockup";
 import { IoSearchOutline } from "react-icons/io5";
-import { SelectTime } from '@/app/sections/home/filters/fields/select-time'
-
-
-
+import { SelectTime } from "@/app/sections/home/filters/fields/select-time";
+import { SelectPickup } from "@/app/sections/home/filters/fields/select-pickup";
+import { SelectDate } from "@/app/sections/home/filters/fields/select-date";
+import { usePopover } from "@/hooks/use-popover";
+import { Popover } from "@/components/popover";
+import { cn } from "@/lib/utils";
 
 export const Filters = () => {
   const [state, setState] = useState({
     pickup: locations[0],
     return: locations[1],
-    date: '01-01-2025',
+    startDate: "01-01-2025",
+    endDate: "02-01-2025",
     pickupTime: timeOptions[1],
-    returnTime: '13:30',
+    returnTime: "13:30",
+  });
+  const { anchorRef, onToggle, onClose, open } = usePopover<HTMLDivElement>();
+  const handleChange = (key: any, value: any) => {
+    setState((prev) => ({ ...prev, [key]: value }));
+  };
 
-  })
-
-  const handlePickUp = (key: any, value:any ) => {
-    setState((prev) => ({...prev, [key]: value }))
-  }
   return (
-    <div className="shadow-lg relative p-6 px-6 bg-white rounded-2xl flex gap-6 items-center ">
-      <SelectPickup
-        options={locations}
-        value={state.pickup}
-        onChange={(val) => handlePickUp('pickup', val)} />
-      <Selection  label="Date" value={dayjs(state.date).format('MMM D')} />
-      < SelectTime
-        options={timeOptions}
-        value={state.pickupTime}
-        onChange={(val) => handlePickUp('pickupTime', val)} />
-      < Divider />
-      {/*<Selection isPrimary label="Pickup" value={state.pickup.label} />*/}
-      {/*<Selection  label="Date" value={dayjs(state.date).format('MMM D')} />*/}
-      {/*<Selection  label="Time" value={state.pickupTime} />*/}
-      < Divider />
-      {/*<Selection  isPrimary label="Promo" value={state.pickupTime} />*/}
-      < SubmitButton />
+    <div
+      className={cn(
+        "relative top-0 flex items-center gap-6 rounded-2xl bg-red-100 bg-white p-6 shadow-lg transition-[top] duration-300 ease-in-out",
+        open && "-top-40",
+      )}
+    >
+      <div className="flex items-center gap-6">
+        <SelectPickup
+          options={locations}
+          value={state.pickup}
+          onChange={(val) => handleChange("pickup", val)}
+        />
+        <SelectDate
+          anchorRef={anchorRef}
+          onClick={onToggle}
+          value={state.startDate}
+        />
+        <SelectTime
+          options={timeOptions}
+          value={state.pickupTime}
+          onChange={(val) => handleChange("pickupTime", val)}
+        />
+      </div>
+      <Divider />
+      <div className="flex items-center gap-6">
+        <SelectPickup
+          alignRight
+          options={locations}
+          value={state.return}
+          onChange={(val) => handleChange("return", val)}
+        />
+        <SelectDate
+          anchorRef={anchorRef}
+          onClick={onToggle}
+          value={state.startDate}
+        />
+        <SelectTime
+          alignRight
+          options={timeOptions}
+          value={state.pickupTime}
+          onChange={(val) => handleChange("pickupTime", val)}
+        />
+      </div>
+      <Divider />
+      <SubmitButton />
+      <Popover
+        maxMenuHeight={450}
+        className="h-[450px] w-full"
+        onClose={onClose}
+        open={open}
+        anchorRef={anchorRef}
+      >
+        <div className="min-h-[600px] w-full bg-red-100">tesst</div>
+      </Popover>
     </div>
-  )
-}
-
+  );
+};
 
 export const SubmitButton = () => {
   return (
-    <button className="ml-3 text-white font-bold items-center bg-primary
-    transition-colors ease-in-out
-      rounded-md hover:bg-primary/80 h-11 w-11 flex  justify-center duration-300">
+    <button className="bg-primary hover:bg-primary/80 ml-3 flex h-11 w-11 items-center justify-center rounded-md font-bold text-white transition-colors duration-300 ease-in-out">
       <IoSearchOutline size={24} />
     </button>
-  )
-}
-
-
-type SelectionProps = {
-  label: string;
-  value: string;
-  isPrimary?: boolean;
-
-}
-export const Selection = ({label, value, isPrimary = false}: SelectionProps, ) => {
-  const truncatedValue = getTruncatedValue(value, 25)
-  return (
-    <div className="flex flex-col gap-1">
-      <span className={cn(
-        " text-md text-medium",
-        isPrimary ? 'text-primary font-semibold' : 'text-gray-500'
-      )}
-      >
-        {label}
-      </span>
-      <div>
-        <span className="text-foreground text-xl">{truncatedValue}</span>
-      </div>
-    </div>
-  )
-}
+  );
+};
 
 export const Divider = () => {
-  return (
-    <div className="self-stretch bg-gray-200 w-[2px]" />
-  )
-}
-
+  return <div className="w-[1.4px] self-stretch bg-gray-200" />;
+};

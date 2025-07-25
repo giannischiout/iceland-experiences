@@ -12,14 +12,14 @@ export const FieldWrapper = (
     children: ReactNode
   }) => {
   return (
-    <div className="flex flex-col gap-1 ">
+    <div className="relative flex flex-col gap-1 ">
       <span className={cn(
         'text-md',
         isPrimary ? 'text-primary font-semibold' : 'text-gray-500',
       )}>
         {label}
       </span>
-      {children}
+        {children}
     </div>
   )
 }

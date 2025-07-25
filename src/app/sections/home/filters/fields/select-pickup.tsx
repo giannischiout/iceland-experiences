@@ -1,56 +1,66 @@
-import { FieldWrapper } from '@/app/sections/home/filters/field-wrapper'
-import { getTruncatedValue } from '@/utills/get-truncated-value'
-import { Popover } from '@/components/popover'
-import { usePopover } from '@/components/popover/usePopover'
-import { pickupIcons } from '@/_mockup'
-import { cn } from '@/lib/utils'
-
+import { FieldWrapper } from "@/app/sections/home/filters/field-wrapper";
+import { usePopover } from "@/hooks/use-popover";
+import { Popover } from "@/components/popover";
+import { cn } from "@/lib/utils";
+import { pickupIcons } from "@/_mockup"; // assuming this exists
 
 type Value = {
   value: string;
   label: string;
-  icon: 'busstop' | 'airport' | 'area';
-}
-type Props = {
-  options: Value[]
-  value: Value,
-  onChange: (value: Value) => void;
-}
-export function SelectPickup({options, value, onChange }: Props) {
-  const { anchorRef, open, onClose, onToggle } = usePopover<HTMLDivElement>()
-  const label =  getTruncatedValue(value.label, 20)
+  icon: "busstop" | "airport" | "area";
+};
 
-  const handleChange = (newValue: typeof options[number]) => {
-    onChange(newValue)
-    onClose()
-  }
+type Props = {
+  options: Value[];
+  value: Value;
+  onChange: (value: Value) => void;
+  alignRight?: boolean;
+};
+
+export function SelectPickup({ options, value, onChange, alignRight }: Props) {
+  const { anchorRef, open, onClose, onToggle } = usePopover<HTMLDivElement>();
+
+  const handleChange = (newValue: Value) => {
+    onChange(newValue);
+    onClose();
+  };
   return (
     <>
-      <FieldWrapper  isPrimary  label="Pickup">
-        <div  ref={anchorRef} onClick={onToggle} className="cursor-pointer font-medium text-xl">{label}</div>
+      <FieldWrapper isPrimary label="Pickup">
+        <div
+          ref={anchorRef}
+          onClick={onToggle}
+          className="text-md w-[160px] cursor-pointer truncate overflow-hidden font-medium whitespace-nowrap"
+        >
+          {value.label}
+        </div>
       </FieldWrapper>
       <Popover
+        alignRight={alignRight}
         anchorRef={anchorRef}
         open={open}
         onClose={onClose}
       >
-        {options.map((option, index) => {
-          const isActive = option.value === value.value
-          return (
-            <div
-              onDragStart={(e) => e.preventDefault()}
-              onClick={() => handleChange(option)}
-              className={cn(
-              "flex  gap-2 p-2 pb-3  items-center cursor-pointer ",
-              isActive ? 'text-foreground font-medium' : 'text-gray-500',
-                index !== options.length - 1 && 'border-b border-gray-200 '
-            )} key={option.value}>
-              {pickupIcons[option.icon]}
-              {option.label}
-            </div>
-          )
-        })}
+        <div className="min-w-[200px]">
+          {options.map((option, index) => {
+            const isActive = option.value === value.value;
+            return (
+              <div
+                key={option.value}
+                onClick={() => handleChange(option)}
+                className={cn(
+                  "flex cursor-pointer items-center gap-2 p-2 pb-3",
+                  isActive ? "text-foreground font-semibold" : "text-gray-500",
+                  index !== options.length - 1 && "border-b border-gray-200",
+                )}
+              >
+                {pickupIcons[option.icon]}
+                {option.label}
+              </div>
+            );
+          })}
+        </div>
       </Popover>
     </>
-  )
+  );
 }

@@ -1,8 +1,8 @@
-import type { ReactNode, RefObject } from 'react'
-import { useClickOutside } from '@/hooks/use-click-outside'
-import { cn } from '@/lib/utils'
-import SimpleBar from 'simplebar-react'
-import 'simplebar-react/dist/simplebar.min.css'
+import type { ReactNode, RefObject } from "react";
+import { useClickOutside } from "@/hooks/use-click-outside";
+import { cn } from "@/lib/utils";
+import SimpleBar from "simplebar-react";
+import "simplebar-react/dist/simplebar.min.css";
 
 type Props = {
   children: ReactNode;
@@ -10,41 +10,45 @@ type Props = {
   open: boolean;
   anchorRef: RefObject<any>;
   maxMenuHeight?: number;
+  className?: string;
+  alignRight?: boolean;
 };
 
-export function Popover(
-  {
-    children,
-    onClose,
-    open,
-    anchorRef,
-    maxMenuHeight = 300,
-  }: Props) {
-  const ref = useClickOutside<HTMLDivElement>(onClose, anchorRef)
+export function Popover({
+  children,
+  onClose,
+  open,
+  anchorRef,
+  maxMenuHeight = 300,
+  alignRight = false,
+  className,
+}: Props) {
+  const ref = useClickOutside<HTMLDivElement>(onClose, anchorRef);
 
+  // note that width and left should be the same value.
   return (
     <div
       onDragStart={(e) => e.preventDefault()}
       aria-hidden={!open}
       ref={ref}
+      style={{ left: alignRight ? "400px" : 0 }}
       className={cn(
-        'fade_scroll select-none shadow-3 absolute left-0 top-[110%] bg-white p-2 rounded-md overflow-hidden ' +
-        'transition-opacity duration-200 ease-in-out z-50',
-        open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none',
+        "absolute top-[108%] left-0 z-50 w-[400px] overflow-hidden rounded-md bg-white p-2 select-none",
+        "transition-all duration-300 ease-in-out",
+        open
+          ? "pointer-events-auto max-h-[450px] opacity-100"
+          : "pointer-events-none max-h-0 opacity-0",
+        className,
       )}
     >
       <SimpleBar
         style={{
-          width: '100%',
           maxHeight: maxMenuHeight,
-          minWidth: 290,
         }}
         autoHide
       >
-        <div className="flex flex-col gap-1 pb-2 ">
-          {children}
-        </div>
+        <div className="flex flex-col gap-1 pb-2">{children}</div>
       </SimpleBar>
     </div>
-  )
+  );
 }
