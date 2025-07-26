@@ -1,6 +1,6 @@
 import { Navbar } from "@/components/nav";
 import Image from "next/image";
-import { Filters } from "@/app/sections/home/filters";
+import { Filters } from "@/app/sections/home/hero/filters";
 
 export async function HomePageView() {
   return (
@@ -20,15 +20,6 @@ export async function HomePageView() {
     </main>
   );
 }
-
-export const Content = () => {
-  return (
-    <div className="flex max-w-[700px] flex-col gap-2 text-center">
-      <h1 className="text-5xl font-light">Your Local </h1>
-      <h1 className="text-6xl font-bold">Card Rental in Iceland</h1>
-    </div>
-  );
-};
 
 export const Logo = () => {
   return (

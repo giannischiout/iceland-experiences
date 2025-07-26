@@ -1,35 +1,45 @@
-import { FieldWrapper } from "@/app/sections/home/filters/field-wrapper";
-import { usePopover } from "@/hooks/use-popover";
 import { Popover } from "@/components/popover";
 import { cn } from "@/lib/utils";
-import { pickupIcons } from "@/_mockup"; // assuming this exists
+import { pickupIcons } from "@/_mockup";
+import type { RefObject } from "react";
+import { FieldWrapper } from "@/app/sections/home/hero/filters/fields/field-wrapper";
 
 type Value = {
   value: string;
   label: string;
-  icon: "busstop" | "airport" | "area";
+  icon: keyof typeof pickupIcons; // "busstop" | "airport" | "area"
 };
 
 type Props = {
   options: Value[];
   value: Value;
   onChange: (value: Value) => void;
+  open: boolean;
+  anchorRef: RefObject<HTMLDivElement | null>;
+  onClose: () => void;
+  onToggle: () => void;
   alignRight?: boolean;
 };
 
-export function SelectPickup({ options, value, onChange, alignRight }: Props) {
-  const { anchorRef, open, onClose, onToggle } = usePopover<HTMLDivElement>();
-
-  console.log({ open });
+export function SelectPickup({
+  open,
+  anchorRef,
+  onClose,
+  onToggle,
+  options,
+  value,
+  onChange,
+  alignRight,
+}: Props) {
   const handleChange = (newValue: Value) => {
     onChange(newValue);
     onClose();
   };
 
   const handleToggle = () => {
-    console.log("used");
     onToggle();
   };
+
   return (
     <>
       <FieldWrapper isPrimary label="Pickup">

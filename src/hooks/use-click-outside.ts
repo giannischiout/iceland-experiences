@@ -8,7 +8,6 @@ export function useClickOutside<T extends HTMLElement>(
   anchorRef: RefObject<HTMLElement | null>,
 ): RefObject<T | null> {
   const ref = useRef<T>(null);
-  console.log("2222");
   useEffect(() => {
     const listener = (event: MouseEvent | TouchEvent) => {
       const dropdownEl = ref.current;
@@ -21,7 +20,9 @@ export function useClickOutside<T extends HTMLElement>(
       ) {
         return;
       }
-      handler();
+      setTimeout(() => {
+        handler();
+      }, 30); // 10–20ms is usually enough
     };
     document.addEventListener("mousedown", listener);
     document.addEventListener("touchstart", listener); // For mobile support

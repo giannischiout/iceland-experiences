@@ -1,8 +1,8 @@
 import type { ReactNode, RefObject } from "react";
-import { useClickOutside } from "@/hooks/use-click-outside";
 import { cn } from "@/lib/utils";
 import SimpleBar from "simplebar-react";
 import "simplebar-react/dist/simplebar.min.css";
+import { useClickOutside } from "@/hooks/use-click-outside";
 
 type Props = {
   children: ReactNode;

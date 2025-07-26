@@ -1,7 +1,7 @@
-import { FieldWrapper } from "@/app/sections/home/filters/field-wrapper";
 import { Popover } from "@/components/popover";
 import { usePopover } from "@/components/popover/usePopover";
 import { cn } from "@/lib/utils";
+import { FieldWrapper } from "@/app/sections/home/hero/filters/fields/field-wrapper";
 
 type Option = {
   label: string;
