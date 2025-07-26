@@ -1,16 +1,17 @@
 "use client";
 import { locations, timeOptions } from "@/_mockup";
-import { FilterRow, HeaderSection } from "@/app/sections/home/hero/blocks";
-import { SearchButton } from "@/app/sections/home/hero/filters/fields/search-button";
+
+import { useRef } from "react";
+import { Popover } from "@/components/popover";
 import {
   POPOVERS,
   useHeroFilters,
-} from "@/app/sections/home/hero/filters/hooks/use-hero-filters";
-import { SelectTime } from "@/app/sections/home/hero/filters/fields/select-time";
-import { useRef } from "react";
-import { SelectPickup } from "@/app/sections/home/hero/filters/fields/select-pickup";
-import { Popover } from "@/components/popover";
-import { SelectDate } from "@/app/sections/home/hero/filters/fields/select-date";
+} from "@/sections/home/hero/filters/hooks/use-hero-filters";
+import { FilterRow, HeaderSection } from "@/sections/home/hero/blocks";
+import { SelectPickup } from "@/sections/home/hero/filters/fields/select-pickup";
+import { SelectDate } from "@/sections/home/hero/filters/fields/select-date";
+import { SelectTime } from "@/sections/home/hero/filters/fields/select-time";
+import { SearchButton } from "@/sections/home/hero/filters/fields/search-button";
 
 export const Filters = () => {
   const { isDateOpen, onClose, onChange, onToggle, state, openPopover } =

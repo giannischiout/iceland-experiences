@@ -1,7 +1,7 @@
 import { Popover } from "@/components/popover";
 import { cn } from "@/lib/utils";
-import { FieldWrapper } from "@/app/sections/home/hero/filters/fields/field-wrapper";
 import type { RefObject } from "react";
+import { FieldWrapper } from "@/sections/home/hero/filters/fields/field-wrapper";
 
 type Option = {
   label: string;

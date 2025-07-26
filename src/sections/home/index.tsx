@@ -1,11 +1,11 @@
 import { Navbar } from "@/components/nav";
 import Image from "next/image";
-import { Filters } from "@/app/sections/home/hero/filters";
+import { Filters } from "@/sections/home/hero/filters";
 
 export async function HomePageView() {
   return (
     <main className="min-h-screen">
-      <section className="o relative flex min-h-screen w-full flex-col">
+      <section className="relative flex min-h-screen w-full flex-col">
         <Navbar />
         <div className="absolute inset-0 z-1 bg-white/0" />
         <Image

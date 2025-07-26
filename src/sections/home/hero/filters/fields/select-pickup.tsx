@@ -2,7 +2,7 @@ import { Popover } from "@/components/popover";
 import { cn } from "@/lib/utils";
 import { pickupIcons } from "@/_mockup";
 import type { RefObject } from "react";
-import { FieldWrapper } from "@/app/sections/home/hero/filters/fields/field-wrapper";
+import { FieldWrapper } from "@/sections/home/hero/filters/fields/field-wrapper";
 
 type Value = {
   value: string;

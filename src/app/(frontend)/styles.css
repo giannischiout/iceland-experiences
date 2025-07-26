@@ -89,7 +89,7 @@ svg {
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-border-dark: var(--border-dark);
-  --font-mono: var(--font-mono);
+  --font-poppins: var(--font-poppins);
 }
 
 .dark {
@@ -131,7 +131,7 @@ svg {
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-poppins;
   }
 }
 
@@ -144,7 +144,7 @@ svg {
 
 
 .nav_item {
-  color: #ffffff;
+  color: #151515;
   position: relative;
   cursor: pointer;
 }
@@ -157,7 +157,7 @@ svg {
   transform: translateX(-50%);
   top: 115%;
   width: 0;
-  transition: width 0.4s ease-in-out;
+  transition: width 0.2s ease-in-out;
   height: 2px;
   background-color: var(--primary) ;
   border-radius: 40px;

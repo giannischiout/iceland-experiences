@@ -1,5 +1,5 @@
 import type { RefObject } from "react";
-import { FieldWrapper } from "@/app/sections/home/hero/filters/fields/field-wrapper";
+import { FieldWrapper } from "@/sections/home/hero/filters/fields/field-wrapper";
 
 type Props = {
   anchorRef: RefObject<HTMLDivElement | null>;

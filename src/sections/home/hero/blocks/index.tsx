@@ -8,7 +8,7 @@ export const HeaderSection = ({ hidden }: { hidden: boolean }) => (
       hidden && "opacity-0",
     )}
   >
-    <h1 className="text-5xl font-light">Your Local </h1>
+    <h1 className="text-4xl font-light">Your Local </h1>
     <h1 className="text-6xl font-bold">Card Rental in Iceland</h1>
   </div>
 );

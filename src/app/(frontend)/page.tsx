@@ -1,8 +1,6 @@
-import React from 'react'
-import { HomePageView } from '@/app/sections/home'
+import React from "react";
+import { HomePageView } from "@/sections/home";
 
 export default async function HomePage() {
-  return (
-    <HomePageView/>
-  )
+  return <HomePageView />;
 }
