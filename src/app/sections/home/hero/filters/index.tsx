@@ -1,93 +1,128 @@
 "use client";
-import { locations, timeOptions } from "@/_mockup";
 import { FilterRow, HeaderSection } from "@/app/sections/home/hero/blocks";
 import { SearchButton } from "@/app/sections/home/hero/filters/fields/search-button";
-import {
-  POPOVERS,
-  useHeroFilters,
-} from "@/app/sections/home/hero/filters/hooks/use-hero-filters";
-import { SelectTime } from "@/app/sections/home/hero/filters/fields/select-time";
-import { useRef } from "react";
-import { SelectPickup } from "@/app/sections/home/hero/filters/fields/select-pickup";
+import { useRef, useState } from "react";
 import { Popover } from "@/components/popover";
-import { SelectDate } from "@/app/sections/home/hero/filters/fields/select-date";
+import { locations, timeOptions } from "@/_mockup";
+import { Field } from "@/app/sections/home/hero/filters/fields/field-wrapper";
+
+const POPOVERS = {
+  pickup: "pickup",
+  dropoff: "dropoff",
+  pickupTime: "pickupTime",
+  dropoffTime: "dropoffTime",
+  pickupDate: "pickupDate",
+  dropoffDate: "dropoffDate",
+} as const;
+
+type PopoverKey = keyof typeof POPOVERS;
+export type PopoverType = PopoverKey | null;
+
+type PopoverContentProps = {
+  onChange: (value: any) => void;
+};
 
 export const Filters = () => {
-  const { isDateOpen, onClose, onChange, onToggle, state, openPopover } =
-    useHeroFilters();
-  //
+  const [state, setState] = useState({
+    pickup: locations[0],
+    dropoff: locations[1],
+    pickupDate: "01-01-2025",
+    dropoffDate: "02-01-2025",
+    pickupTime: timeOptions[1],
+    dropoffTime: timeOptions[1],
+  });
+  const [activePopover, setActivePopover] = useState<PopoverType>(null);
   const pickupRef = useRef<HTMLDivElement | null>(null);
-  const dropoffRef = useRef<HTMLDivElement | null>(null);
-  //
-  const pickupDateRef = useRef<HTMLDivElement | null>(null);
-  const dropoffDateRef = useRef<HTMLDivElement | null>(null);
-  //
   const pickupTimeRef = useRef<HTMLDivElement | null>(null);
-  const dropoffTimeRef = useRef<HTMLDivElement | null>(null);
+
+  const onToggle = (key: PopoverKey) => {
+    if (activePopover === key) {
+      setActivePopover(null);
+    } else {
+      setTimeout(() => {
+        setActivePopover(key);
+      }, 200);
+    }
+  };
+
+  const onClose = () => {
+    setActivePopover(null);
+  };
+
+  const onChange = (key: any, value: any) => {
+    setState((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const POPOVER_CONFIGS: Record<
+    PopoverKey,
+    { component: React.FC<PopoverContentProps>; anchorRef: React.RefObject<HTMLDivElement | null> }
+  > = {
+    pickup: {
+      component: (
+        <Popover
+          key="pickup"
+          className="left-0 h-[400px]"
+          onClose={onClose}
+          open={!!activePopover}
+          anchorRef={pickupRef}
+        >
+          <ul>
+            <li onClick={() => onChange("pickup", { label: "1", value: "1" })}>pickup time 1</li>
+            <li onClick={() => onChange("pickup", { label: "2", value: "2" })}>pickup time 2</li>
+          </ul>
+        </Popover>
+      ),
+      anchorRef: pickupRef,
+    },
+    pickupTime: {
+      component: (
+        <Popover
+          key="pickup"
+          className="left-[400px] h-[400px]"
+          onClose={onClose}
+          open={!!activePopover}
+          anchorRef={pickupTimeRef}
+        >
+          <ul>
+            <li onClick={() => onChange("pickupTime", { label: "1", value: "1" })}>
+              picksefsefsup time 1
+            </li>
+            <li onClick={() => onChange("pickupTime", { label: "2", value: "2" })}>
+              picefsefkup time 2
+            </li>
+          </ul>
+        </Popover>
+      ),
+      anchorRef: pickupTimeRef,
+      className: "left-[400px] h-[400px]",
+    },
+  };
 
   return (
     <div className="z-200 mt-[6%] flex w-full flex-1 flex-col items-center gap-10 overflow-hidden">
-      <HeaderSection hidden={isDateOpen} />
-      <FilterRow hidden={isDateOpen}>
+      <HeaderSection hidden={false} />
+      <FilterRow hidden={false}>
         <div className="flex items-center gap-6">
-          <SelectPickup
-            open={openPopover === POPOVERS.pickup}
-            onClose={onClose}
+          <Field
             onToggle={() => onToggle(POPOVERS.pickup)}
+            isPrimary
             anchorRef={pickupRef}
-            options={locations}
-            value={state.pickup}
-            onChange={(val) => onChange(POPOVERS.pickup, val)}
+            label="Pickup"
+            value={state.pickup.label}
           />
-          <SelectDate
-            anchorRef={pickupDateRef}
-            onToggle={() => onToggle(POPOVERS.pickupDate)}
-            value={state.pickupDate}
-          />
-          <SelectTime
-            open={openPopover === POPOVERS.pickupTime}
+          <Field
             onToggle={() => onToggle(POPOVERS.pickupTime)}
-            onClose={onClose}
             anchorRef={pickupTimeRef}
-            options={timeOptions}
-            value={state.pickupTime}
-            onChange={(val) => onChange(POPOVERS.pickupTime, val)}
+            label="Time"
+            value={state.pickupTime.label}
           />
         </div>
         <Divider />
-        <div className="flex items-center gap-6">
-          <SelectPickup
-            anchorRef={dropoffRef}
-            alignRight
-            open={openPopover === POPOVERS.dropoff}
-            onClose={onClose}
-            onToggle={() => onToggle(POPOVERS.dropoff)}
-            options={locations}
-            value={state.dropoff}
-            onChange={(val) => onChange(POPOVERS.dropoff, val)}
-          />
-          <SelectTime
-            open={openPopover === POPOVERS.dropoffTime}
-            onToggle={() => onToggle(POPOVERS.dropoffTime)}
-            onClose={onClose}
-            anchorRef={dropoffTimeRef}
-            options={timeOptions}
-            value={state.dropoffTime}
-            onChange={(val) => onChange(POPOVERS.dropoffTime, val)}
-          />
-        </div>
+
         <Divider />
         <SearchButton />
-        {/* date popover */}
-        <Popover
-          maxMenuHeight={450}
-          className="h-[450px] w-full duration-500"
-          onClose={onClose}
-          open={openPopover === POPOVERS.pickupDate}
-          anchorRef={pickupDateRef}
-        >
-          <div className="min-h-[600px] w-full bg-red-100">tesst</div>
-        </Popover>
+        {/* popovers */}
+        {POPOVER_CONFIGS?.[activePopover]?.component}
       </FilterRow>
     </div>
   );

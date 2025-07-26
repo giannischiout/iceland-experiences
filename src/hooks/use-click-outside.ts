@@ -10,16 +10,16 @@ export function useClickOutside<T extends HTMLElement>(
   const ref = useRef<T>(null);
   useEffect(() => {
     const listener = (event: MouseEvent | TouchEvent) => {
-      // const dropdownEl = ref.current;
+      const dropdownEl = ref.current;
       const anchorEl = anchorRef?.current;
       const target = event.target as Node;
-
-      if (anchorEl && anchorEl.contains(target)) {
+      if (
+        (anchorEl && anchorEl.contains(target)) ||
+        (dropdownEl && dropdownEl.contains(target))
+      ) {
         return;
       }
-      setTimeout(() => {
-        handler();
-      }, 10);
+      handler();
     };
     document.addEventListener("mousedown", listener);
     document.addEventListener("touchstart", listener); // For mobile support

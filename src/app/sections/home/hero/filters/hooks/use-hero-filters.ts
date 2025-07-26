@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { locations, timeOptions } from "@/_mockup";
 
 export const POPOVERS = {
@@ -10,7 +10,7 @@ export const POPOVERS = {
   dropoffDate: "dropoffDate",
 } as const;
 
-type PopoverKey = keyof typeof POPOVERS; // "pickup" | "returnPickup" | ...
+type PopoverKey = keyof typeof POPOVERS;
 export type PopoverType = PopoverKey | null;
 
 export const useHeroFilters = () => {
@@ -22,14 +22,18 @@ export const useHeroFilters = () => {
     pickupTime: timeOptions[1],
     dropoffTime: timeOptions[1],
   });
+
   const [openPopover, setOpenPopover] = useState<PopoverType>(null);
+
+  useEffect(() => {
+    console.log("render filters hook");
+  }, []);
 
   const onChange = (key: any, value: any) => {
     setState((prev) => ({ ...prev, [key]: value }));
   };
 
   const onToggle = (key: PopoverType) => {
-    console.log("1");
     setOpenPopover((prev) => {
       if (prev === key) return null;
       else return key;
@@ -37,7 +41,7 @@ export const useHeroFilters = () => {
   };
 
   const onClose = () => {
-    console.log("on close");
+    console.log("onclose");
     setOpenPopover(null);
   };
 
@@ -51,15 +55,5 @@ export const useHeroFilters = () => {
     openPopover,
     //
     state,
-    // refs: {
-    //   pickupRef,
-    //   dropoffRef,
-    //
-    //   pickupTimeRef,
-    //   dropoffTimeRef,
-    //
-    //   pickupDateRef,
-    //   dropoffDateRef,
-    // },
   };
 };

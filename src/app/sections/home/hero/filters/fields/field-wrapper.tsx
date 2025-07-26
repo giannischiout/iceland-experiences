@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import type { RefObject } from "react";
 
-export const FieldWrapper = ({
+export const Field = ({
   label,
   isPrimary = false,
   onToggle,
@@ -22,7 +22,7 @@ export const FieldWrapper = ({
       className="relative flex cursor-pointer flex-col gap-0.5"
     >
       <span className={cn("text-md", labelStyle)}>{label}</span>
-      <div className="text-md max-w-[160px] truncate overflow-hidden font-medium whitespace-nowrap">
+      <div className="text-md max-w-[160px] min-w-[100px] truncate overflow-hidden font-medium whitespace-nowrap">
         {value}
       </div>
     </div>

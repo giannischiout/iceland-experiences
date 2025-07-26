@@ -8,7 +8,7 @@ type Props = {
   children: ReactNode;
   onClose: () => void;
   open: boolean;
-  anchorRef: RefObject<any>;
+  anchorRef: RefObject<HTMLDivElement | null>;
   maxMenuHeight?: number;
   className?: string;
   alignRight?: boolean;
@@ -24,21 +24,18 @@ export function Popover({
   className,
 }: Props) {
   const ref = useClickOutside<HTMLDivElement>(onClose, anchorRef);
-
-  // note that width and left should be the same value.
+  console.log({ open });
   return (
     <div
       onDragStart={(e) => e.preventDefault()}
       aria-hidden={!open}
       ref={ref}
-      style={{ left: alignRight ? "400px" : 0 }}
       className={cn(
-        "absolute top-[108%] left-0 z-50 w-[400px] overflow-hidden rounded-md bg-white p-2 select-none",
-        "transition-all duration-300 ease-in-out",
-        open
-          ? "pointer-events-auto max-h-[450px] opacity-100"
-          : "pointer-events-none max-h-0 opacity-0",
+        "absolute top-[108%] left-[400px] z-50 w-[400px] overflow-hidden rounded-md bg-white p-2 select-none",
+        "transition-all duration-600 ease-in-out",
         className,
+
+        open ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0",
       )}
     >
       <SimpleBar
