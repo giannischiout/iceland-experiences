@@ -15,10 +15,7 @@ export async function HomePageView() {
           src="/assets/2.png"
           className="object-cover"
         />
-        <div className="z-200 mt-[6%] flex w-full flex-1 flex-col items-center gap-10">
-          <Content />
-          <Filters />
-        </div>
+        <Filters />
       </section>
     </main>
   );

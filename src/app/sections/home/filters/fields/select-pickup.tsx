@@ -20,16 +20,22 @@ type Props = {
 export function SelectPickup({ options, value, onChange, alignRight }: Props) {
   const { anchorRef, open, onClose, onToggle } = usePopover<HTMLDivElement>();
 
+  console.log({ open });
   const handleChange = (newValue: Value) => {
     onChange(newValue);
     onClose();
+  };
+
+  const handleToggle = () => {
+    console.log("used");
+    onToggle();
   };
   return (
     <>
       <FieldWrapper isPrimary label="Pickup">
         <div
           ref={anchorRef}
-          onClick={onToggle}
+          onClick={handleToggle}
           className="text-md w-[160px] cursor-pointer truncate overflow-hidden font-medium whitespace-nowrap"
         >
           {value.label}
