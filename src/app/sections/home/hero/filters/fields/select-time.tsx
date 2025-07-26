@@ -1,7 +1,7 @@
 import { Popover } from "@/components/popover";
-import { usePopover } from "@/components/popover/usePopover";
 import { cn } from "@/lib/utils";
 import { FieldWrapper } from "@/app/sections/home/hero/filters/fields/field-wrapper";
+import type { RefObject } from "react";
 
 type Option = {
   label: string;
@@ -12,26 +12,37 @@ type Props = {
   value: Option;
   onChange: (value: Option) => void;
   alignRight?: boolean;
+  onToggle: () => void;
+  anchorRef: RefObject<HTMLDivElement | null>;
+  onClose: () => void;
+  open: boolean;
 };
 
-export function SelectTime({ alignRight, options, value, onChange }: Props) {
-  const { anchorRef, open, onClose, onToggle } = usePopover<HTMLDivElement>();
-
+export function SelectTime({
+  onToggle,
+  onClose,
+  anchorRef,
+  alignRight,
+  options,
+  value,
+  onChange,
+  open,
+}: Props) {
   const handleChange = (newValue: (typeof options)[number]) => {
     onChange(newValue);
     onClose();
   };
+
   return (
     <>
-      <FieldWrapper label="Time">
-        <div
-          ref={anchorRef}
-          onClick={onToggle}
-          className="cursor-pointer font-medium"
-        >
-          {value.label}
-        </div>
-      </FieldWrapper>
+      <FieldWrapper
+        onToggle={onToggle}
+        isPrimary
+        anchorRef={anchorRef}
+        label="Time"
+        value={value.label}
+      />
+
       <Popover
         alignRight={alignRight}
         anchorRef={anchorRef}

@@ -1,12 +1,13 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { locations, timeOptions } from "@/_mockup";
 
 export const POPOVERS = {
   pickup: "pickup",
-  returnPickup: "returnPickup",
+  dropoff: "dropoff",
   pickupTime: "pickupTime",
-  returnTime: "returnTime",
-  date: "date",
+  dropoffTime: "dropoffTime",
+  pickupDate: "pickupDate",
+  dropoffDate: "dropoffDate",
 } as const;
 
 type PopoverKey = keyof typeof POPOVERS; // "pickup" | "returnPickup" | ...
@@ -15,31 +16,32 @@ export type PopoverType = PopoverKey | null;
 export const useHeroFilters = () => {
   const [state, setState] = useState({
     pickup: locations[0],
-    return: locations[1],
-    startDate: "01-01-2025",
-    endDate: "02-01-2025",
+    dropoff: locations[1],
+    pickupDate: "01-01-2025",
+    dropoffDate: "02-01-2025",
     pickupTime: timeOptions[1],
-    returnTime: "13:30",
+    dropoffTime: timeOptions[1],
   });
   const [openPopover, setOpenPopover] = useState<PopoverType>(null);
-  const pickupRef = useRef<HTMLDivElement | null>(null);
-  const returnRef = useRef<HTMLDivElement | null>(null);
-  const startDateRef = useRef<HTMLDivElement | null>(null);
-  const endDateRef = useRef<HTMLDivElement | null>(null);
 
   const onChange = (key: any, value: any) => {
     setState((prev) => ({ ...prev, [key]: value }));
   };
 
   const onToggle = (key: PopoverType) => {
+    console.log("1");
     setOpenPopover((prev) => {
       if (prev === key) return null;
       else return key;
     });
   };
-  const onClose = () => setOpenPopover(null);
 
-  const isDateOpen = openPopover === "date";
+  const onClose = () => {
+    console.log("on close");
+    setOpenPopover(null);
+  };
+
+  const isDateOpen = openPopover === "pickupDate";
 
   return {
     onClose,
@@ -49,11 +51,15 @@ export const useHeroFilters = () => {
     openPopover,
     //
     state,
-    refs: {
-      endDateRef,
-      returnRef,
-      startDateRef,
-      pickupRef,
-    },
+    // refs: {
+    //   pickupRef,
+    //   dropoffRef,
+    //
+    //   pickupTimeRef,
+    //   dropoffTimeRef,
+    //
+    //   pickupDateRef,
+    //   dropoffDateRef,
+    // },
   };
 };

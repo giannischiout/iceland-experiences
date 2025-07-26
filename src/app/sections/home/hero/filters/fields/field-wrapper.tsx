@@ -1,25 +1,30 @@
-import { cn } from '@/lib/utils'
-import type { ReactNode } from 'react'
+import { cn } from "@/lib/utils";
+import type { RefObject } from "react";
 
-export const FieldWrapper = (
-  {
-    label,
-    isPrimary = false,
-    children,
-  }: {
-    label: string
-    isPrimary?: boolean
-    children: ReactNode
-  }) => {
+export const FieldWrapper = ({
+  label,
+  isPrimary = false,
+  onToggle,
+  anchorRef,
+  value,
+}: {
+  label: string;
+  isPrimary?: boolean;
+  onToggle: () => void;
+  value: string;
+  anchorRef: RefObject<HTMLDivElement | null>;
+}) => {
+  const labelStyle = isPrimary ? "text-primary font-semibold" : "text-gray-500";
   return (
-    <div className="relative flex flex-col gap-1 ">
-      <span className={cn(
-        'text-md',
-        isPrimary ? 'text-primary font-semibold' : 'text-gray-500',
-      )}>
-        {label}
-      </span>
-        {children}
+    <div
+      ref={anchorRef}
+      onClick={onToggle}
+      className="relative flex cursor-pointer flex-col gap-0.5"
+    >
+      <span className={cn("text-md", labelStyle)}>{label}</span>
+      <div className="text-md max-w-[160px] truncate overflow-hidden font-medium whitespace-nowrap">
+        {value}
+      </div>
     </div>
-  )
-}
+  );
+};

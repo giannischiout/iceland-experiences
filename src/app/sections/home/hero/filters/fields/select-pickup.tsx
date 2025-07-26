@@ -36,21 +36,15 @@ export function SelectPickup({
     onClose();
   };
 
-  const handleToggle = () => {
-    onToggle();
-  };
-
   return (
     <>
-      <FieldWrapper isPrimary label="Pickup">
-        <div
-          ref={anchorRef}
-          onClick={handleToggle}
-          className="text-md w-[160px] cursor-pointer truncate overflow-hidden font-medium whitespace-nowrap"
-        >
-          {value.label}
-        </div>
-      </FieldWrapper>
+      <FieldWrapper
+        onToggle={onToggle}
+        isPrimary
+        anchorRef={anchorRef}
+        label="Pickup"
+        value={value.label}
+      />
       <Popover
         alignRight={alignRight}
         anchorRef={anchorRef}

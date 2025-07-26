@@ -9,14 +9,11 @@ type Props = {
 
 export function SelectDate({ anchorRef, onToggle, value }: Props) {
   return (
-    <FieldWrapper label="Date">
-      <div
-        ref={anchorRef}
-        onClick={onToggle}
-        className="cursor-pointer font-medium"
-      >
-        {value}
-      </div>
-    </FieldWrapper>
+    <FieldWrapper
+      onToggle={onToggle}
+      anchorRef={anchorRef}
+      label="Date"
+      value={value}
+    />
   );
 }
