@@ -23,7 +23,7 @@ export function Popover({
   alignRight = false,
   className,
 }: Props) {
-  const ref = useClickOutside<HTMLDivElement>(onClose, anchorRef);
+  const ref = useClickOutside<HTMLDivElement>(onClose, anchorRef, open);
 
   // note that width and left should be the same value.
   return (

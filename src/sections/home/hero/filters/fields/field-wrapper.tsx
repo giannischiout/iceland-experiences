@@ -7,11 +7,13 @@ export const FieldWrapper = ({
   onToggle,
   anchorRef,
   value,
+  isDatePickerOpen,
 }: {
   label: string;
   isPrimary?: boolean;
   onToggle: () => void;
   value: string;
+  isDatePickerOpen: boolean;
   anchorRef: RefObject<HTMLDivElement | null>;
 }) => {
   const labelStyle = isPrimary ? "text-primary font-semibold" : "text-gray-500";
@@ -19,7 +21,10 @@ export const FieldWrapper = ({
     <div
       ref={anchorRef}
       onClick={onToggle}
-      className="relative flex cursor-pointer flex-col gap-0.5"
+      className={cn(
+        "relative flex cursor-pointer flex-col gap-0.5 opacity-100",
+        isDatePickerOpen && "opacity-15",
+      )}
     >
       <span className={cn("text-md", labelStyle)}>{label}</span>
       <div className="max-w-[160px] truncate overflow-hidden font-medium whitespace-nowrap">

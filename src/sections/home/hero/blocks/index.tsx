@@ -15,15 +15,15 @@ export const HeaderSection = ({ hidden }: { hidden: boolean }) => (
 
 export const FilterRow = ({
   children,
-  hidden,
+  isDatePickerOpen,
 }: {
   children: ReactNode;
-  hidden: boolean;
+  isDatePickerOpen: boolean;
 }) => (
   <div
     className={cn(
-      "relative top-0 flex items-center gap-6 rounded-2xl bg-white p-6 shadow-lg transition-[top] duration-300 ease-in-out",
-      hidden && "-top-40 delay-250",
+      "relative flex translate-y-0 items-center gap-6 rounded-2xl bg-white p-6 opacity-100 shadow-lg transition-transform duration-300 ease-in-out",
+      isDatePickerOpen && "-translate-y-[100%] delay-300",
     )}
   >
     {children}

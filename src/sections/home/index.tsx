@@ -20,11 +20,3 @@ export async function HomePageView() {
     </main>
   );
 }
-
-export const Logo = () => {
-  return (
-    <span className="cfont-bold text-4xl text-white">
-      Venture<span className="text-orange-500">.</span>
-    </span>
-  );
-};

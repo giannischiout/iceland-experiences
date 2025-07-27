@@ -1,5 +1,4 @@
 import type { RefObject } from "react";
-import { FieldWrapper } from "@/sections/home/hero/filters/fields/field-wrapper";
 
 type Props = {
   anchorRef: RefObject<HTMLDivElement | null>;
@@ -9,11 +8,15 @@ type Props = {
 
 export function SelectDate({ anchorRef, onToggle, value }: Props) {
   return (
-    <FieldWrapper
-      onToggle={onToggle}
-      anchorRef={anchorRef}
-      label="Date"
-      value={value}
-    />
+    <div
+      ref={anchorRef}
+      onClick={onToggle}
+      className="relative z-200 flex w-[60px] cursor-pointer flex-col gap-0.5"
+    >
+      <span className="text-md text-gray-500">Date</span>
+      <div className="text-md max-w-[160px] truncate overflow-hidden font-medium whitespace-nowrap">
+        {value}
+      </div>
+    </div>
   );
 }

@@ -16,6 +16,7 @@ type Props = {
   anchorRef: RefObject<HTMLDivElement | null>;
   onClose: () => void;
   open: boolean;
+  isDatePickerOpen: boolean;
 };
 
 export function SelectTime({
@@ -27,6 +28,7 @@ export function SelectTime({
   value,
   onChange,
   open,
+  isDatePickerOpen,
 }: Props) {
   const handleChange = (newValue: (typeof options)[number]) => {
     onChange(newValue);
@@ -36,8 +38,8 @@ export function SelectTime({
   return (
     <>
       <FieldWrapper
+        isDatePickerOpen={isDatePickerOpen}
         onToggle={onToggle}
-        isPrimary
         anchorRef={anchorRef}
         label="Time"
         value={value.label}

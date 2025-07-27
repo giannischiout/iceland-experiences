@@ -19,10 +19,13 @@ type Props = {
   onClose: () => void;
   onToggle: () => void;
   alignRight?: boolean;
+  label?: string;
+  isDatePickerOpen: boolean;
 };
 
 export function SelectPickup({
   open,
+  label = "Pickup",
   anchorRef,
   onClose,
   onToggle,
@@ -30,6 +33,7 @@ export function SelectPickup({
   value,
   onChange,
   alignRight,
+  isDatePickerOpen,
 }: Props) {
   const handleChange = (newValue: Value) => {
     onChange(newValue);
@@ -39,10 +43,11 @@ export function SelectPickup({
   return (
     <>
       <FieldWrapper
+        isDatePickerOpen={isDatePickerOpen}
         onToggle={onToggle}
         isPrimary
         anchorRef={anchorRef}
-        label="Pickup"
+        label={label}
         value={value.label}
       />
       <Popover

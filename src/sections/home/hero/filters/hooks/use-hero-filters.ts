@@ -1,26 +1,37 @@
 import { useState } from "react";
 import { locations, timeOptions } from "@/_mockup";
+import type { DateRange } from "react-day-picker";
 
 export const POPOVERS = {
   pickup: "pickup",
   dropoff: "dropoff",
   pickupTime: "pickupTime",
   dropoffTime: "dropoffTime",
-  pickupDate: "pickupDate",
-  dropoffDate: "dropoffDate",
+  dateRange: "dateRange",
 } as const;
 
 type PopoverKey = keyof typeof POPOVERS; // "pickup" | "returnPickup" | ...
 export type PopoverType = PopoverKey | null;
+type Location = (typeof locations)[number];
+type TimeOption = (typeof timeOptions)[number];
+export type HeroFilterState = {
+  pickup: Location;
+  dropoff: Location;
+  pickupTime: TimeOption;
+  dropoffTime: TimeOption;
+  range: DateRange;
+};
 
 export const useHeroFilters = () => {
-  const [state, setState] = useState({
+  const [state, setState] = useState<HeroFilterState>({
     pickup: locations[0],
     dropoff: locations[1],
-    pickupDate: "01-01-2025",
-    dropoffDate: "02-01-2025",
     pickupTime: timeOptions[1],
     dropoffTime: timeOptions[1],
+    range: {
+      from: new Date(),
+      to: new Date(),
+    },
   });
   const [openPopover, setOpenPopover] = useState<PopoverType>(null);
 
@@ -29,7 +40,6 @@ export const useHeroFilters = () => {
   };
 
   const onToggle = (key: PopoverType) => {
-    console.log("1");
     setOpenPopover((prev) => {
       if (prev === key) return null;
       else return key;
@@ -37,29 +47,20 @@ export const useHeroFilters = () => {
   };
 
   const onClose = () => {
-    console.log("on close");
     setOpenPopover(null);
   };
 
-  const isDateOpen = openPopover === "pickupDate";
+  const onDateRangeChange = (range: DateRange | undefined) => {
+    if (!range) return;
+    setState((prev) => ({ ...prev, range }));
+  };
 
   return {
     onClose,
     onChange,
     onToggle,
-    isDateOpen,
     openPopover,
-    //
+    onDateRangeChange,
     state,
-    // refs: {
-    //   pickupRef,
-    //   dropoffRef,
-    //
-    //   pickupTimeRef,
-    //   dropoffTimeRef,
-    //
-    //   pickupDateRef,
-    //   dropoffDateRef,
-    // },
   };
 };
