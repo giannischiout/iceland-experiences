@@ -28,7 +28,7 @@ export const Filters = () => {
 
   const isDatePickerOpen = openPopover === POPOVERS.dateRange;
   return (
-    <div className="z-200 mt-[6%] flex w-full flex-1 flex-col items-center gap-10 overflow-hidden">
+    <div className="z-20 flex h-full w-full flex-1 flex-col items-center justify-center gap-10">
       <HeaderSection hidden={isDatePickerOpen} />
       <FilterRow isDatePickerOpen={isDatePickerOpen}>
         <div className="flex items-center gap-6">

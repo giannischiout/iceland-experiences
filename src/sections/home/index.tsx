@@ -1,22 +1,22 @@
-import { Navbar } from "@/components/nav";
-import Image from "next/image";
 import { Filters } from "@/sections/home/hero/filters";
+import Image from "next/image";
 
 export async function HomePageView() {
   return (
-    <main className="min-h-screen">
-      <section className="relative flex min-h-screen w-full flex-col">
-        <Navbar />
-        <div className="absolute inset-0 z-1 bg-white/0" />
+    <section className="relative flex h-[88vh] w-full flex-col items-center overflow-hidden">
+      <div className="relative flex w-[90%] flex-1">
+        <div className="absolute z-1 h-full w-full bg-black/20" />
         <Image
           alt="background image"
           fill
-          sizes="100vh"
-          src="/assets/2.png"
-          className="object-cover"
+          src="/assets/background2.jpg"
+          className="rounded-md object-cover object-bottom saturate-50"
         />
         <Filters />
-      </section>
-    </main>
+      </div>
+      <div className="flex h-[12vh] items-center justify-center bg-red-100">
+        <span>test</span>
+      </div>
+    </section>
   );
 }

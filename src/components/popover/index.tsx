@@ -33,11 +33,11 @@ export function Popover({
       ref={ref}
       style={{ left: alignRight ? "400px" : 0 }}
       className={cn(
-        "absolute top-[108%] left-0 z-50 w-[400px] overflow-hidden rounded-md bg-white p-2 select-none",
+        "absolute top-[108%] left-0 z-50 overflow-hidden rounded-md bg-white p-2 shadow-lg select-none",
         "transition-all duration-300 ease-in-out",
         open
-          ? "pointer-events-auto max-h-[450px] opacity-100"
-          : "pointer-events-none max-h-0 opacity-0",
+          ? "pointer-events-auto opacity-100"
+          : "pointer-events-none opacity-0",
         className,
       )}
     >

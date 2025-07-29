@@ -2,6 +2,7 @@ import React from "react";
 import "./styles.css";
 import { Noto_Sans } from "next/font/google";
 import "simplebar-react/dist/simplebar.min.css";
+import { Navbar } from "@/components/nav";
 
 export const metadata = {
   description: "A blank template using Payload in a Next.js app.",
@@ -25,7 +26,10 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
 
   return (
     <html lang="en">
-      <body className={`${notoSans.variable}`}>{children}</body>
+      <body className={`${notoSans.variable}`}>
+        <Navbar />
+        {children}
+      </body>
     </html>
   );
 }

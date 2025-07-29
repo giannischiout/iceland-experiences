@@ -69,6 +69,9 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
+    categories: Category;
+    cars: Car;
+    brands: Brand;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -77,6 +80,9 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    categories: CategoriesSelect<false> | CategoriesSelect<true>;
+    cars: CarsSelect<false> | CarsSelect<true>;
+    brands: BrandsSelect<false> | BrandsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -85,12 +91,12 @@ export interface Config {
     defaultIDType: string;
   };
   globals: {
-    hero: Hero;
+    mainMenu: MainMenu;
   };
   globalsSelect: {
-    hero: HeroSelect<false> | HeroSelect<true>;
+    mainMenu: MainMenuSelect<false> | MainMenuSelect<true>;
   };
-  locale: null;
+  locale: 'en' | 'de' | 'es';
   user: User & {
     collection: 'users';
   };
@@ -162,6 +168,63 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories".
+ */
+export interface Category {
+  id: string;
+  name: string;
+  slug?: string | null;
+  description?: string | null;
+  image?: (string | null) | Media;
+  /**
+   * Optional site identifier if you want to group categories by site
+   */
+  siteKey?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "cars".
+ */
+export interface Car {
+  id: string;
+  brand: string | Brand;
+  category: string | Category;
+  model: string;
+  slug?: string | null;
+  description?: string | null;
+  images?: (string | Media)[] | null;
+  price: number;
+  year: number;
+  engine: string;
+  horsepower: number;
+  transmission: 'Automatic' | 'Manual';
+  fuelType: 'Petrol' | 'Diesel' | 'Electric' | 'Hybrid';
+  siteKey?: string | null;
+  available?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "brands".
+ */
+export interface Brand {
+  id: string;
+  name: string;
+  slug?: string | null;
+  description?: string | null;
+  logo?: (string | null) | Media;
+  /**
+   * Optional identifier to filter brands per site.
+   */
+  siteKey?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -174,6 +237,18 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: string | Media;
+      } | null)
+    | ({
+        relationTo: 'categories';
+        value: string | Category;
+      } | null)
+    | ({
+        relationTo: 'cars';
+        value: string | Car;
+      } | null)
+    | ({
+        relationTo: 'brands';
+        value: string | Brand;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -259,6 +334,54 @@ export interface MediaSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories_select".
+ */
+export interface CategoriesSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  description?: T;
+  image?: T;
+  siteKey?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "cars_select".
+ */
+export interface CarsSelect<T extends boolean = true> {
+  brand?: T;
+  category?: T;
+  model?: T;
+  slug?: T;
+  description?: T;
+  images?: T;
+  price?: T;
+  year?: T;
+  engine?: T;
+  horsepower?: T;
+  transmission?: T;
+  fuelType?: T;
+  siteKey?: T;
+  available?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "brands_select".
+ */
+export interface BrandsSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  description?: T;
+  logo?: T;
+  siteKey?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents_select".
  */
 export interface PayloadLockedDocumentsSelect<T extends boolean = true> {
@@ -291,24 +414,30 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "hero".
+ * via the `definition` "mainMenu".
  */
-export interface Hero {
+export interface MainMenu {
   id: string;
-  title: string;
-  tagline: string;
-  gallery?: (string | Media)[] | null;
+  bookNowLink: string;
+  ourCars?: {
+    categories?: (string | Category)[] | null;
+    brands?: (string | Brand)[] | null;
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "hero_select".
+ * via the `definition` "mainMenu_select".
  */
-export interface HeroSelect<T extends boolean = true> {
-  title?: T;
-  tagline?: T;
-  gallery?: T;
+export interface MainMenuSelect<T extends boolean = true> {
+  bookNowLink?: T;
+  ourCars?:
+    | T
+    | {
+        categories?: T;
+        brands?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 export const HeaderSection = ({ hidden }: { hidden: boolean }) => (
   <div
     className={cn(
-      "flex max-w-[700px] flex-col gap-2 text-center transition-all duration-400 ease-in-out",
+      "z-10 flex max-w-[700px] flex-col gap-2 text-center text-amber-50 transition-all duration-400 ease-in-out",
       hidden && "opacity-0",
     )}
   >
@@ -22,8 +22,8 @@ export const FilterRow = ({
 }) => (
   <div
     className={cn(
-      "relative flex translate-y-0 items-center gap-6 rounded-2xl bg-white p-6 opacity-100 shadow-lg transition-transform duration-300 ease-in-out",
-      isDatePickerOpen && "-translate-y-[100%] delay-300",
+      "relative z-10 flex translate-y-0 items-center gap-6 rounded-2xl bg-white p-6 opacity-100 shadow-lg transition-transform duration-200 ease-in-out",
+      isDatePickerOpen && "-translate-y-[180%] delay-300",
     )}
   >
     {children}
