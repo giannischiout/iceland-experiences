@@ -6,9 +6,11 @@ type HandlerType = () => void;
 export function useClickOutside<T extends HTMLElement>(
   handler: HandlerType,
   anchorRef: RefObject<HTMLElement | null>,
+  open: boolean,
 ): RefObject<T | null> {
   const ref = useRef<T>(null);
   useEffect(() => {
+    if (!open) return;
     const listener = (event: MouseEvent | TouchEvent) => {
       const dropdownEl = ref.current;
       const anchorEl = anchorRef?.current;

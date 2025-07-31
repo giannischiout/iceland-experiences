@@ -72,6 +72,7 @@ export interface Config {
     categories: Category;
     cars: Car;
     brands: Brand;
+    transmissions: Transmission;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -83,6 +84,7 @@ export interface Config {
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     cars: CarsSelect<false> | CarsSelect<true>;
     brands: BrandsSelect<false> | BrandsSelect<true>;
+    transmissions: TransmissionsSelect<false> | TransmissionsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -225,6 +227,17 @@ export interface Brand {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "transmissions".
+ */
+export interface Transmission {
+  id: string;
+  label: string;
+  tagline: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -249,6 +262,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'brands';
         value: string | Brand;
+      } | null)
+    | ({
+        relationTo: 'transmissions';
+        value: string | Transmission;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -382,6 +399,16 @@ export interface BrandsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "transmissions_select".
+ */
+export interface TransmissionsSelect<T extends boolean = true> {
+  label?: T;
+  tagline?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents_select".
  */
 export interface PayloadLockedDocumentsSelect<T extends boolean = true> {
@@ -422,6 +449,7 @@ export interface MainMenu {
   ourCars?: {
     categories?: (string | Category)[] | null;
     brands?: (string | Brand)[] | null;
+    transmissions?: (string | Transmission)[] | null;
   };
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -437,6 +465,7 @@ export interface MainMenuSelect<T extends boolean = true> {
     | {
         categories?: T;
         brands?: T;
+        transmissions?: T;
       };
   updatedAt?: T;
   createdAt?: T;

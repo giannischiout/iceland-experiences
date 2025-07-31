@@ -1,7 +1,6 @@
 "use client";
 import { Languages } from "@/components/languages";
-import { useState } from "react";
-import { usePopover } from "@/hooks/use-popover";
+import { useRef, useState } from "react";
 import { useClickOutside } from "@/hooks/use-click-outside";
 import { NavMenu } from "@/components/nav/menu";
 import type { ActiveState } from "@/components/nav/types";
@@ -9,37 +8,47 @@ import { navData } from "@/routes";
 import { Logo } from "@/components/logo";
 import { MegaMenu } from "@/components/nav/mega-menu";
 import type { MainMenu } from "@/payload-types";
+import { Profile } from "@/components/nav/profile";
 
 type Props = {
   data: MainMenu;
 };
 export function Navbar({ data }: Props) {
-  console.log({ data });
-  const { onClose, open, onToggle, anchorRef } = usePopover();
+  const anchorRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState<ActiveState>(null);
 
   const handleOnClose = () => {
-    onClose();
     setActive(null);
   };
-  const ref = useClickOutside<HTMLDivElement>(handleOnClose, anchorRef);
+
+  const handleOpen = (id: string) => {
+    setActive((prev) => (prev === id ? null : id));
+  };
+  const ref = useClickOutside<HTMLDivElement>(
+    handleOnClose,
+    anchorRef,
+    !!active,
+  ); // handler, ref, isOpen
 
   return (
-    <>
+    <div className="flex w-full flex-col items-center">
       <nav
         style={{ zIndex: 9999 }}
-        className="relative m-auto grid h-[12vh] w-[90%] grid-cols-[200px_1fr_200px] items-center gap-6 text-lg font-medium"
+        className="relative grid w-full grid-cols-[90px_1fr_200px] justify-center p-4 text-lg font-medium"
       >
         <Logo />
         <NavMenu
           navData={navData}
           setActive={setActive}
           anchorRef={anchorRef}
-          onToggle={onToggle}
+          onOpen={handleOpen}
         />
-        <Languages />
+        <div className="flex-end flex items-center justify-end gap-2">
+          <Languages />
+          <Profile />
+        </div>
       </nav>
-      <MegaMenu data={data} open={open} ref={ref} active={active} />
-    </>
+      <MegaMenu data={data} open={!!active} ref={ref} active={active} />
+    </div>
   );
 }

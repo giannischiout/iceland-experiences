@@ -26,6 +26,12 @@ const Menus: GlobalConfig = {
           relationTo: "brands",
           hasMany: true,
         },
+        {
+          name: "transmissions",
+          type: "relationship",
+          relationTo: "transmissions",
+          hasMany: true,
+        },
       ],
     },
   ],

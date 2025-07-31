@@ -1,31 +1,41 @@
 import type { Dispatch, RefObject, SetStateAction } from "react";
+import { useState } from "react";
 import type { ActiveState } from "@/components/nav/types";
-import type { navData } from "@/routes";
+import type { NavItem } from "@/routes";
+import { cn } from "@/lib/utils";
 
 type Props = {
   setActive: Dispatch<SetStateAction<ActiveState>>;
-  onToggle: () => void;
+  onOpen: (id: string) => void;
   anchorRef: RefObject<any>;
-  navData: typeof navData;
+  navData: NavItem[];
 };
 
-export const NavMenu = ({ setActive, onToggle, anchorRef, navData }: Props) => {
-  const onChange = (id: string) => {
-    setActive((prev) => (prev === id ? null : id));
-    onToggle();
-  };
+export const NavMenu = ({ anchorRef, onOpen, navData }: Props) => {
+  const [active, setActive] = useState<NavItem["id"] | null>(null);
 
+  const onChange = (navItemID: string) => {
+    onOpen(navItemID);
+    setActive(navItemID);
+  };
   return (
-    <ul ref={anchorRef} className="flex flex-1 justify-center gap-6">
-      {navData.map((item) => (
-        <li
-          onClick={() => onChange(item.id)}
-          key={item.id}
-          className="nav_item text-[1rem] text-gray-500"
-        >
-          {item.label}
-        </li>
-      ))}
+    <ul ref={anchorRef} className="flex flex-1 items-center gap-2">
+      {navData.map((item) => {
+        return (
+          <li
+            onClick={() => onChange(item.id)}
+            key={item.id}
+            className={cn(
+              "transition-color flex cursor-pointer rounded-full bg-white px-4 py-1 text-[1rem] text-gray-500 duration-500 ease-in-out",
+              active === item.id
+                ? "bg-primary/80 text-white transition"
+                : "hover:bg-primary/10",
+            )}
+          >
+            {item.label}
+          </li>
+        );
+      })}
     </ul>
   );
 };

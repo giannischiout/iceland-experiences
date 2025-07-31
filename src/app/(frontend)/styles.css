@@ -12,13 +12,14 @@
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.45 0 0);
-  --primary: oklch(0.75 0.157 60.465);
+  --primary: oklch(0.609 0.075 139.835);
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(1 0 89.876);
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.733 0.006 17.288);
-  --accent: oklch(0.97 0 0);
+  /*--accent: oklch(0.97 0 0);*/
+  --accent: oklch(0.348 0 89.876);
   --accent-foreground: oklch(0.205 0 0);
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.922 0 0);
@@ -122,9 +123,10 @@ svg {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: 115%;
-  width: 0;
-  transition: width 0.4s ease-in-out;
+  top: 112%;
+  width: 100%;
+  opacity: 0;
+  transition: all 0.5s ease-in-out;
   height: 2px;
   background-color: var(--primary) ;
   border-radius: 40px;
@@ -132,6 +134,8 @@ svg {
 
 .nav_item:hover::before {
   width: 104%;
+  opacity: 1;
+
 }
 
 
@@ -149,13 +153,13 @@ svg {
 
 
 .rdp-root {
-  --rdp-accent-color: #f6914b;
-  --rdp-day-height: 50px;
-  --rdp-day-width: 50px;
+  --rdp-accent-color: var(--primary);
+  --rdp-day-height: 48px;
+  --rdp-day-width: 48px;
   /*--rdp-range_middle-background-color: #f4f3f3;*/
   /*--rdp-background-color: #f9f9f9;*/
   --rdp-day-margin: 4px; /* Adds spacing between day buttons */
-  --rdp-day-hover-background-color: #cf6119;
+  --rdp-day-hover-background-color: var(--primary);
 
   /* Default day styles */
   --rdp-day-color: #a8a8a8; /* Not fully dark text */
@@ -167,9 +171,9 @@ svg {
 
   /* Selected day */
   --rdp-day-selected-color: white;
-  --rdp-day-selected-background-color: var(--rdp-accent-color);
+  --rdp-day-selected-background-color: var(--primary);
 
-  --rdp-range_middle: #f69952
+  --rdp-range_middle: #7a9e72
 }
 
 .rdp-selected {

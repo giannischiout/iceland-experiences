@@ -12,6 +12,7 @@ import Categories from "@/cms/collections/Gategories";
 import Menus from "@/cms/collections/Globals/Menu";
 import Cars from "@/cms/collections/Car";
 import Brands from "@/cms/collections/Brands";
+import { Transmissions } from "@/cms/collections/Transmitions";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -41,7 +42,7 @@ export default buildConfig({
     defaultLocale: "en",
     fallback: true,
   },
-  collections: [Users, Media, Categories, Cars, Brands],
+  collections: [Users, Media, Categories, Cars, Brands, Transmissions],
   globals: [Menus],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || "",

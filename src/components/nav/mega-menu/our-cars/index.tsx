@@ -1,11 +1,13 @@
 import { Button } from "@/components/ui/button";
-import type { Brand, Category, MainMenu } from "@/payload-types";
+import type { Brand, Category, MainMenu, Transmission } from "@/payload-types";
 import { FaCarAlt } from "react-icons/fa";
+import { FaRankingStar } from "react-icons/fa6";
 
 export function OurCars({ data }: { data: MainMenu["ourCars"] }) {
-  const { categories, brands } = data as {
+  const { categories, brands, transmissions } = data as {
     categories: Category[];
     brands: Brand[];
+    transmissions: Transmission[];
   };
   return (
     <div className="grid w-full grid-cols-4 gap-1 py-6">
@@ -15,23 +17,51 @@ export function OurCars({ data }: { data: MainMenu["ourCars"] }) {
           <span className="text-4xl font-bold">Rental Cars</span>
         </div>
         <div className="flex gap-3">
-          <Button>View all</Button>
+          <Button className="bg-black">View all</Button>
           <Button variant="outline">Rent a camper</Button>
         </div>
       </div>
       <div className="grid grid-cols-[60px_auto] flex-col gap-2 border-r p-2">
         <div className="flex justify-end gap-2">
-          <FaCarAlt size={24} className="text-primary mt-[4px]" />
+          <FaCarAlt size={24} className="text-primary mt-[2px]" />
         </div>
-        <ul className="flex flex-col gap-2">
+        <ul className="flex flex-col gap-3">
           <span className="text-lg font-bold">Categories</span>
-          {categories.map((category) => (
-            <li className="text-sm text-gray-500">{category.name}</li>
+          {categories.map((c) => (
+            <li key={c.name} className="text-gray-500">
+              <span className="nav_item">{c.name}</span>
+            </li>
           ))}
         </ul>
       </div>
-      <div className="flex flex-col items-center border-r p-2">
-        <p className="font-satoshi">this is a test</p>
+      <div className="grid grid-cols-[60px_auto] flex-col gap-2 border-r p-2">
+        <div className="flex justify-end gap-2">
+          <FaRankingStar size={24} className="text-primary" />
+        </div>
+        <ul className="flex flex-col gap-3">
+          <span className="text-lg font-bold">Popular Brands</span>
+          {brands.map((b) => (
+            <li key={b.name} className="text-gray-500">
+              <span className="nav_item">{b.name}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div className="grid grid-cols-[60px_auto] flex-col gap-2 p-2">
+        <div className="flex justify-end gap-2">
+          <FaRankingStar size={24} className="text-primary" />
+        </div>
+        <ul className="flex flex-col gap-3">
+          <span className="text-lg font-bold">Popular Brands</span>
+          {transmissions.map((t) => (
+            <li key={t.label} className="flex flex-col gap-1 text-gray-500">
+              <p>
+                <span className="nav_item inline">{t.label}</span>
+              </p>
+              <span className="text-sm text-gray-400">{t.tagline}</span>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );

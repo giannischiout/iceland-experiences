@@ -3,17 +3,18 @@ import { locations, timeOptions } from "@/_mockup";
 
 import { useRef } from "react";
 import { Popover } from "@/components/popover";
-import dayjs from "dayjs";
 import {
   POPOVERS,
   useHeroFilters,
 } from "@/sections/home/hero/filters/hooks/use-hero-filters";
 import { SelectPickup } from "@/sections/home/hero/filters/fields/select-pickup";
-import { SelectDate } from "@/sections/home/hero/filters/fields/select-date";
-import { SelectTime } from "@/sections/home/hero/filters/fields/select-time";
 import { SearchButton } from "@/sections/home/hero/filters/fields/search-button";
 import { FilterRow, HeaderSection } from "@/sections/home/hero/blocks";
-import { DayPicker } from "@/sections/home/hero/filters/fields/day-picker";
+import dayjs from "dayjs";
+import { DateTimeTriggerWrapper } from "@/sections/home/hero/filters/fields/date-time-picker/container";
+import { DateTrigger } from "@/sections/home/hero/filters/fields/date-time-picker/date-trigger";
+import { TimeTrigger } from "@/sections/home/hero/filters/fields/date-time-picker/time-trigger";
+import { DayPicker } from "@/components/day-picker";
 
 export const Filters = () => {
   const { onClose, onChange, onToggle, state, openPopover, onDateRangeChange } =
@@ -31,7 +32,7 @@ export const Filters = () => {
     <div className="z-20 flex h-full w-full flex-1 flex-col items-center justify-center gap-10">
       <HeaderSection hidden={isDatePickerOpen} />
       <FilterRow isDatePickerOpen={isDatePickerOpen}>
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-4">
           <SelectPickup
             isDatePickerOpen={isDatePickerOpen}
             open={openPopover === POPOVERS.pickup}
@@ -42,28 +43,30 @@ export const Filters = () => {
             value={state.pickup}
             onChange={(val) => onChange(POPOVERS.pickup, val)}
           />
-          <SelectDate
-            anchorRef={pickupDateRef}
-            onToggle={() => onToggle(POPOVERS.dateRange)}
-            value={dayjs(state.range.from).format("MMM D")}
-          />
-          <SelectTime
-            isDatePickerOpen={isDatePickerOpen}
-            open={openPopover === POPOVERS.pickupTime}
-            onToggle={() => onToggle(POPOVERS.pickupTime)}
-            onClose={onClose}
-            anchorRef={pickupTimeRef}
-            options={timeOptions}
-            value={state.pickupTime}
-            onChange={(val) => onChange(POPOVERS.pickupTime, val)}
-          />
+          <DateTimeTriggerWrapper label="Pickup Date">
+            <DateTrigger
+              value={dayjs(state.range.from).format("MMM D")}
+              anchorRef={pickupDateRef}
+              onClick={() => onToggle(POPOVERS.dateRange)}
+            />
+            <div className="h-[50%] w-[1px] bg-gray-400" />
+            <TimeTrigger
+              open={openPopover === POPOVERS.pickupTime}
+              options={timeOptions}
+              value={state.pickupTime}
+              anchorRef={pickupTimeRef}
+              onClose={onClose}
+              onToggle={() => onToggle(POPOVERS.pickupTime)}
+              onChange={(val) => onChange(POPOVERS.pickupTime, val)}
+            />
+          </DateTimeTriggerWrapper>
         </div>
         <Divider />
         <div className="flex items-center gap-6">
           <SelectPickup
             isDatePickerOpen={isDatePickerOpen}
             anchorRef={dropoffRef}
-            label="Return"
+            label="Dropoff"
             alignRight
             open={openPopover === POPOVERS.dropoff}
             onClose={onClose}
@@ -72,21 +75,24 @@ export const Filters = () => {
             value={state.dropoff}
             onChange={(val) => onChange(POPOVERS.dropoff, val)}
           />
-          <SelectDate
-            anchorRef={dropoffDateRef}
-            onToggle={() => onToggle(POPOVERS.dateRange)}
-            value={dayjs(state.range.to).format("MMM D")}
-          />
-          <SelectTime
-            isDatePickerOpen={isDatePickerOpen}
-            open={openPopover === POPOVERS.dropoffTime}
-            onToggle={() => onToggle(POPOVERS.dropoffTime)}
-            onClose={onClose}
-            anchorRef={dropoffTimeRef}
-            options={timeOptions}
-            value={state.dropoffTime}
-            onChange={(val) => onChange(POPOVERS.dropoffTime, val)}
-          />
+
+          <DateTimeTriggerWrapper label="Pickup Date">
+            <DateTrigger
+              value={dayjs(state.range.from).format("MMM D")}
+              anchorRef={dropoffDateRef}
+              onClick={() => onToggle(POPOVERS.dateRange)}
+            />
+            <div className="h-[50%] w-[1px] bg-gray-400" />
+            <TimeTrigger
+              open={openPopover === POPOVERS.pickupTime}
+              options={timeOptions}
+              value={state.pickupTime}
+              anchorRef={dropoffTimeRef}
+              onClose={onClose}
+              onToggle={() => onToggle(POPOVERS.dropoffTime)}
+              onChange={(val) => onChange(POPOVERS.dropoffTime, val)}
+            />
+          </DateTimeTriggerWrapper>
         </div>
         <Divider />
         <SearchButton />
@@ -110,3 +116,49 @@ export const Filters = () => {
 export const Divider = () => {
   return <div className="min-w-[1px] self-stretch bg-gray-200" />;
 };
+
+{
+  /*<SelectDate*/
+}
+{
+  /*  anchorRef={dropoffDateRef}*/
+}
+{
+  /*  onToggle={() => onToggle(POPOVERS.dateRange)}*/
+}
+{
+  /*  value={dayjs(state.range.to).format("MMM D")}*/
+}
+{
+  /*/>*/
+}
+{
+  /*<SelectTime*/
+}
+{
+  /*  isDatePickerOpen={isDatePickerOpen}*/
+}
+{
+  /*  open={openPopover === POPOVERS.dropoffTime}*/
+}
+{
+  /*  onToggle={() => onToggle(POPOVERS.dropoffTime)}*/
+}
+{
+  /*  onClose={onClose}*/
+}
+{
+  /*  anchorRef={dropoffTimeRef}*/
+}
+{
+  /*  options={timeOptions}*/
+}
+{
+  /*  value={state.dropoffTime}*/
+}
+{
+  /*  onChange={(val) => onChange(POPOVERS.dropoffTime, val)}*/
+}
+{
+  /*/>*/
+}

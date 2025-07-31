@@ -14,7 +14,7 @@ export function SelectDate({ anchorRef, onToggle, value }: Props) {
       className="relative z-200 flex w-[60px] cursor-pointer flex-col gap-0.5"
     >
       <span className="text-md text-gray-500">Date</span>
-      <div className="text-md max-w-[160px] truncate overflow-hidden font-medium whitespace-nowrap">
+      <div className="text-md max-w-[160px] min-w-[120px] truncate overflow-hidden rounded-md bg-gray-100 p-2 font-medium whitespace-nowrap">
         {value}
       </div>
     </div>

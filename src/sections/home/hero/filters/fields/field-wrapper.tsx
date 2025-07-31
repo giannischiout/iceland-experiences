@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import type { RefObject } from "react";
+import { MapPin } from "lucide-react";
 
 export const FieldWrapper = ({
   label,
@@ -16,7 +17,7 @@ export const FieldWrapper = ({
   isDatePickerOpen: boolean;
   anchorRef: RefObject<HTMLDivElement | null>;
 }) => {
-  const labelStyle = isPrimary ? "text-primary font-semibold" : "text-gray-500";
+  const labelStyle = isPrimary ? "text-primary font-medium" : "text-gray-500";
   return (
     <div
       ref={anchorRef}
@@ -26,9 +27,10 @@ export const FieldWrapper = ({
         isDatePickerOpen && "opacity-15",
       )}
     >
-      <span className={cn("text-md", labelStyle)}>{label}</span>
-      <div className="max-w-[160px] truncate overflow-hidden font-medium whitespace-nowrap">
-        {value}
+      <span className={cn("text-sm", labelStyle)}>{label}</span>
+      <div className="bg-primary/5 flex h-[40px] max-w-[180px] items-center gap-2 rounded-md px-2 font-medium whitespace-nowrap">
+        <MapPin size={30} className="text-primary" />
+        <span className="max-w-[150px] truncate overflow-hidden">{value}</span>
       </div>
     </div>
   );
