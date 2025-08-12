@@ -23,7 +23,7 @@ export function MegaMenu({ open, active, ref, data }: Props) {
   return (
     <div
       className={cn(
-        "absolute top-[12vh] left-0 z-0 h-0 w-full flex-col border-t bg-white/50 opacity-0 backdrop-blur",
+        "absolute top-[10vh] left-0 z-0 h-0 w-full flex-col border-t bg-white/50 opacity-0 backdrop-blur",
         active && "z-40 flex h-[88vh] opacity-100",
       )}
     >

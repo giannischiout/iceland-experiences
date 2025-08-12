@@ -73,6 +73,10 @@ export interface Config {
     cars: Car;
     brands: Brand;
     transmissions: Transmission;
+    models: Model;
+    'add-ons': AddOn;
+    features: Feature;
+    tents: Tent;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -85,6 +89,10 @@ export interface Config {
     cars: CarsSelect<false> | CarsSelect<true>;
     brands: BrandsSelect<false> | BrandsSelect<true>;
     transmissions: TransmissionsSelect<false> | TransmissionsSelect<true>;
+    models: ModelsSelect<false> | ModelsSelect<true>;
+    'add-ons': AddOnsSelect<false> | AddOnsSelect<true>;
+    features: FeaturesSelect<false> | FeaturesSelect<true>;
+    tents: TentsSelect<false> | TentsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -155,7 +163,7 @@ export interface User {
  */
 export interface Media {
   id: string;
-  alt: string;
+  alt?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -177,7 +185,7 @@ export interface Category {
   name: string;
   slug?: string | null;
   description?: string | null;
-  image?: (string | null) | Media;
+  image: string | Media;
   /**
    * Optional site identifier if you want to group categories by site
    */
@@ -192,17 +200,17 @@ export interface Category {
 export interface Car {
   id: string;
   brand: string | Brand;
-  category: string | Category;
-  model: string;
+  name: string;
   slug?: string | null;
   description?: string | null;
   images?: (string | Media)[] | null;
   price: number;
   year: number;
-  engine: string;
   horsepower: number;
   transmission: 'Automatic' | 'Manual';
   fuelType: 'Petrol' | 'Diesel' | 'Electric' | 'Hybrid';
+  seats?: number | null;
+  sleepingCapacity?: number | null;
   siteKey?: string | null;
   available?: boolean | null;
   updatedAt: string;
@@ -238,6 +246,65 @@ export interface Transmission {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "models".
+ */
+export interface Model {
+  id: string;
+  brand: string | Brand;
+  name: string;
+  slug?: string | null;
+  /**
+   * Optional identifier to filter models per site.
+   */
+  siteKey?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "add-ons".
+ */
+export interface AddOn {
+  id: string;
+  name: string;
+  slug: string;
+  description?: string | null;
+  basePrice?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "features".
+ */
+export interface Feature {
+  id: string;
+  name: string;
+  slug: string;
+  description?: string | null;
+  icon?: (string | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tents".
+ */
+export interface Tent {
+  id: string;
+  name: string;
+  slug: string;
+  description?: string | null;
+  /**
+   * Number of people this tent can sleep
+   */
+  sleeps: number;
+  icon?: (string | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -266,6 +333,22 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'transmissions';
         value: string | Transmission;
+      } | null)
+    | ({
+        relationTo: 'models';
+        value: string | Model;
+      } | null)
+    | ({
+        relationTo: 'add-ons';
+        value: string | AddOn;
+      } | null)
+    | ({
+        relationTo: 'features';
+        value: string | Feature;
+      } | null)
+    | ({
+        relationTo: 'tents';
+        value: string | Tent;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -368,17 +451,17 @@ export interface CategoriesSelect<T extends boolean = true> {
  */
 export interface CarsSelect<T extends boolean = true> {
   brand?: T;
-  category?: T;
-  model?: T;
+  name?: T;
   slug?: T;
   description?: T;
   images?: T;
   price?: T;
   year?: T;
-  engine?: T;
   horsepower?: T;
   transmission?: T;
   fuelType?: T;
+  seats?: T;
+  sleepingCapacity?: T;
   siteKey?: T;
   available?: T;
   updatedAt?: T;
@@ -404,6 +487,55 @@ export interface BrandsSelect<T extends boolean = true> {
 export interface TransmissionsSelect<T extends boolean = true> {
   label?: T;
   tagline?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "models_select".
+ */
+export interface ModelsSelect<T extends boolean = true> {
+  brand?: T;
+  name?: T;
+  slug?: T;
+  siteKey?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "add-ons_select".
+ */
+export interface AddOnsSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  description?: T;
+  basePrice?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "features_select".
+ */
+export interface FeaturesSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  description?: T;
+  icon?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tents_select".
+ */
+export interface TentsSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  description?: T;
+  sleeps?: T;
+  icon?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -446,6 +578,76 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
 export interface MainMenu {
   id: string;
   bookNowLink: string;
+  menu?:
+    | {
+        title: string;
+        description: string;
+        /**
+         * Add an image to the card
+         */
+        withImage?: boolean | null;
+        image?: (string | null) | Media;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'menuCardImage';
+      }[]
+    | null;
+  menuItems?:
+    | {
+        label: string;
+        url: string;
+        megaMenu?:
+          | (
+              | {
+                  title: string;
+                  /**
+                   * Select up to 4 items to display
+                   */
+                  items?:
+                    | (
+                        | {
+                            relationTo: 'cars';
+                            value: string | Car;
+                          }
+                        | {
+                            relationTo: 'categories';
+                            value: string | Category;
+                          }
+                        | {
+                            relationTo: 'brands';
+                            value: string | Brand;
+                          }
+                      )[]
+                    | null;
+                  id?: string | null;
+                  blockName?: string | null;
+                  blockType: 'fourItemList';
+                }
+              | {
+                  image: string | Media;
+                  links?:
+                    | {
+                        label?: string | null;
+                        url?: string | null;
+                        id?: string | null;
+                      }[]
+                    | null;
+                  id?: string | null;
+                  blockName?: string | null;
+                  blockType: 'imageWithLinks';
+                }
+              | {
+                  title: string;
+                  categories?: (string | Category)[] | null;
+                  id?: string | null;
+                  blockName?: string | null;
+                  blockType: 'categoryGrid';
+                }
+            )[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
   ourCars?: {
     categories?: (string | Category)[] | null;
     brands?: (string | Brand)[] | null;
@@ -460,6 +662,61 @@ export interface MainMenu {
  */
 export interface MainMenuSelect<T extends boolean = true> {
   bookNowLink?: T;
+  menu?:
+    | T
+    | {
+        menuCardImage?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              withImage?: T;
+              image?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  menuItems?:
+    | T
+    | {
+        label?: T;
+        url?: T;
+        megaMenu?:
+          | T
+          | {
+              fourItemList?:
+                | T
+                | {
+                    title?: T;
+                    items?: T;
+                    id?: T;
+                    blockName?: T;
+                  };
+              imageWithLinks?:
+                | T
+                | {
+                    image?: T;
+                    links?:
+                      | T
+                      | {
+                          label?: T;
+                          url?: T;
+                          id?: T;
+                        };
+                    id?: T;
+                    blockName?: T;
+                  };
+              categoryGrid?:
+                | T
+                | {
+                    title?: T;
+                    categories?: T;
+                    id?: T;
+                    blockName?: T;
+                  };
+            };
+        id?: T;
+      };
   ourCars?:
     | T
     | {

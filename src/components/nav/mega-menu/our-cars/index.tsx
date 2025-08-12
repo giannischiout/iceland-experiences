@@ -1,7 +1,14 @@
 import { Button } from "@/components/ui/button";
-import type { Brand, Category, MainMenu, Transmission } from "@/payload-types";
+import type {
+  Brand,
+  Category,
+  MainMenu,
+  Media,
+  Transmission,
+} from "@/payload-types";
 import { FaCarAlt } from "react-icons/fa";
 import { FaRankingStar } from "react-icons/fa6";
+import Image from "next/image";
 
 export function OurCars({ data }: { data: MainMenu["ourCars"] }) {
   const { categories, brands, transmissions } = data as {
@@ -21,18 +28,36 @@ export function OurCars({ data }: { data: MainMenu["ourCars"] }) {
           <Button variant="outline">Rent a camper</Button>
         </div>
       </div>
-      <div className="grid grid-cols-[60px_auto] flex-col gap-2 border-r p-2">
-        <div className="flex justify-end gap-2">
-          <FaCarAlt size={24} className="text-primary mt-[2px]" />
+      <div className="gap-2 border-r p-3">
+        <div className="flex flex-col gap-3 p-2">
+          <div className="flex items-center gap-2">
+            <FaCarAlt size={24} className="text-primary mt-[2px]" />
+            <span className="text-lg font-bold">Categories</span>
+          </div>
+          {categories.map((c) => {
+            const image = c.image as Media;
+            return (
+              <div key={c.name} className="flex gap-2 text-gray-500">
+                <div className="relative h-[50px] w-[70px] overflow-hidden rounded-md">
+                  <Image
+                    src={image?.url}
+                    alt={image?.alt}
+                    fill
+                    sizes=""
+                    className="rounded-md object-cover"
+                  />
+                </div>
+
+                <div className="flex flex-col">
+                  <span className="font-bold">{c.name}</span>
+                  <span className="text-muted-foreground max-h-10 max-w-[200px] overflow-hidden text-sm">
+                    {c.description}
+                  </span>
+                </div>
+              </div>
+            );
+          })}
         </div>
-        <ul className="flex flex-col gap-3">
-          <span className="text-lg font-bold">Categories</span>
-          {categories.map((c) => (
-            <li key={c.name} className="text-gray-500">
-              <span className="nav_item">{c.name}</span>
-            </li>
-          ))}
-        </ul>
       </div>
       <div className="grid grid-cols-[60px_auto] flex-col gap-2 border-r p-2">
         <div className="flex justify-end gap-2">

@@ -9,7 +9,7 @@ export async function HomePageView() {
         <Filters />
       </div>
       <div className="flex h-[12vh] items-center justify-center bg-red-100">
-        {/*<span>test</span>*/}
+        {/*<span>test</span>*/}pnpmπν
       </div>
     </section>
   );

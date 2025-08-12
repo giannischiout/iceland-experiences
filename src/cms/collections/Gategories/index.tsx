@@ -40,9 +40,10 @@ const Categories: CollectionConfig = {
     {
       name: "image",
       type: "upload",
-      relationTo: "media", // Assumes you have a 'media' collection
-      required: false,
+      relationTo: "media",
+      required: true,
     },
+
     {
       name: "siteKey",
       type: "text",

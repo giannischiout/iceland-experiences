@@ -10,9 +10,13 @@ import { Users } from "@/cms/collections/Users";
 import { Media } from "@/cms/collections/Media";
 import Categories from "@/cms/collections/Gategories";
 import Menus from "@/cms/collections/Globals/Menu";
-import Cars from "@/cms/collections/Car";
 import Brands from "@/cms/collections/Brands";
 import { Transmissions } from "@/cms/collections/Transmitions";
+import Models from "@/cms/collections/Models";
+import Cars from "@/cms/collections/Car";
+import AddOns from "@/cms/collections/AddOns";
+import Features from "@/cms/collections/Features";
+import Tents from "@/cms/collections/Tents";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -42,7 +46,18 @@ export default buildConfig({
     defaultLocale: "en",
     fallback: true,
   },
-  collections: [Users, Media, Categories, Cars, Brands, Transmissions],
+  collections: [
+    Users,
+    Media,
+    Categories,
+    Cars,
+    Brands,
+    Transmissions,
+    Models,
+    AddOns,
+    Features,
+    Tents,
+  ],
   globals: [Menus],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || "",

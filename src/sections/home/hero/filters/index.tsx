@@ -1,7 +1,7 @@
 "use client";
 import { locations, timeOptions } from "@/_mockup";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Popover } from "@/components/popover";
 import {
   POPOVERS,
@@ -15,6 +15,7 @@ import { DateTimeTriggerWrapper } from "@/sections/home/hero/filters/fields/date
 import { DateTrigger } from "@/sections/home/hero/filters/fields/date-time-picker/date-trigger";
 import { TimeTrigger } from "@/sections/home/hero/filters/fields/date-time-picker/time-trigger";
 import { DayPicker } from "@/components/day-picker";
+import { cn } from "@/lib/utils";
 
 export const Filters = () => {
   const { onClose, onChange, onToggle, state, openPopover, onDateRangeChange } =
@@ -28,9 +29,16 @@ export const Filters = () => {
   const dropoffTimeRef = useRef<HTMLDivElement | null>(null);
 
   const isDatePickerOpen = openPopover === POPOVERS.dateRange;
+
+  const [activeTab, setActive] = useState("all");
+
+  const handleActive = (tab: string) => {
+    setActive(tab);
+  };
   return (
     <div className="z-20 flex h-full w-full flex-1 flex-col items-center justify-center gap-10">
       <HeaderSection hidden={isDatePickerOpen} />
+
       <FilterRow isDatePickerOpen={isDatePickerOpen}>
         <div className="flex items-center gap-4">
           <SelectPickup
@@ -110,6 +118,20 @@ export const Filters = () => {
         </Popover>
       </FilterRow>
     </div>
+  );
+};
+
+export const TabItem = ({ label, onClick, activeTab }) => {
+  return (
+    <span
+      onClick={onClick}
+      className={cn(
+        "bg-gray-500 p-2 px-4",
+        activeTab === label.toLowerCase() && "bg-gray-700",
+      )}
+    >
+      {label}
+    </span>
   );
 };
 

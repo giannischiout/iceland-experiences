@@ -1,12 +1,12 @@
 // collections/cars.ts
 
-import type { CollectionConfig } from "payload/types";
+import type { CollectionConfig } from "payload";
 
 const Cars: CollectionConfig = {
   slug: "cars",
   admin: {
-    useAsTitle: "model",
-    defaultColumns: ["model", "brand", "category", "price", "createdAt"],
+    useAsTitle: "name",
+    defaultColumns: ["name", "brand", "category", "price", "createdAt"],
   },
   labels: {
     singular: "Car",
@@ -17,23 +17,18 @@ const Cars: CollectionConfig = {
   },
   fields: [
     // Associations
+
     {
       name: "brand",
       type: "relationship",
       relationTo: "brands",
       required: true,
     },
-    {
-      name: "category",
-      type: "relationship",
-      relationTo: "categories",
-      required: true,
-    },
 
     // Basic Info
     {
-      name: "model",
-      label: "Model Name",
+      name: "name",
+      label: "name",
       type: "text",
       required: true,
       localized: true,
@@ -75,11 +70,6 @@ const Cars: CollectionConfig = {
       required: true,
     },
     {
-      name: "engine",
-      type: "text",
-      required: true,
-    },
-    {
       name: "horsepower",
       type: "number",
       required: true,
@@ -96,7 +86,18 @@ const Cars: CollectionConfig = {
       required: true,
       options: ["Petrol", "Diesel", "Electric", "Hybrid"],
     },
-
+    {
+      name: "seats",
+      type: "number",
+      min: 1,
+      label: "Seating Capacity",
+    },
+    {
+      name: "sleepingCapacity",
+      type: "number",
+      min: 1,
+      label: "Sleeping Capacity",
+    },
     {
       name: "siteKey",
       type: "text",
