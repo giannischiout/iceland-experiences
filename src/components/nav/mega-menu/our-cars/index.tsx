@@ -1,20 +1,13 @@
 import { Button } from "@/components/ui/button";
-import type {
-  Brand,
-  Category,
-  MainMenu,
-  Media,
-  Transmission,
-} from "@/payload-types";
+import type { Brand, Category, MainMenu, Media } from "@/payload-types";
 import { FaCarAlt } from "react-icons/fa";
 import { FaRankingStar } from "react-icons/fa6";
 import Image from "next/image";
 
 export function OurCars({ data }: { data: MainMenu["ourCars"] }) {
-  const { categories, brands, transmissions } = data as {
+  const { categories, brands } = data as {
     categories: Category[];
     brands: Brand[];
-    transmissions: Transmission[];
   };
   return (
     <div className="grid w-full grid-cols-4 gap-1 py-6">
@@ -78,14 +71,6 @@ export function OurCars({ data }: { data: MainMenu["ourCars"] }) {
         </div>
         <ul className="flex flex-col gap-3">
           <span className="text-lg font-bold">Popular Brands</span>
-          {transmissions.map((t) => (
-            <li key={t.label} className="flex flex-col gap-1 text-gray-500">
-              <p>
-                <span className="nav_item inline">{t.label}</span>
-              </p>
-              <span className="text-sm text-gray-400">{t.tagline}</span>
-            </li>
-          ))}
         </ul>
       </div>
     </div>

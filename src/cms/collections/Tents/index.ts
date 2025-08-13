@@ -1,19 +1,17 @@
-// collections/tents.ts
-
 import type { CollectionConfig } from "payload";
 
 const Tents: CollectionConfig = {
   slug: "tents",
   labels: {
-    singular: "Tent Type",
-    plural: "Tent Types",
+    singular: "Tent",
+    plural: "Tents",
   },
   admin: {
     useAsTitle: "name",
-    defaultColumns: ["name", "slug"],
+    defaultColumns: ["name", "type", "stock", "basePricePerDay"],
   },
   access: {
-    read: () => true,
+    read: () => true, // customize as needed
   },
   fields: [
     {
@@ -28,28 +26,64 @@ const Tents: CollectionConfig = {
       required: true,
       unique: true,
       admin: {
-        placeholder: "e.g. rooftop, ground-tent, awning",
+        placeholder: "auto-generated or manual",
       },
     },
     {
       name: "description",
       type: "textarea",
       localized: true,
-      required: false,
     },
     {
-      name: "sleeps",
+      name: "sleepingCapacity",
       type: "number",
       required: true,
       min: 1,
       admin: {
-        description: "Number of people this tent can sleep",
+        description: "How many people can the tent sleep?",
       },
     },
     {
-      name: "icon",
+      name: "type",
+      type: "select",
+      required: true,
+      options: [
+        { label: "Rooftop Tent", value: "rooftop" },
+        { label: "Ground Tent", value: "ground" },
+      ],
+      defaultValue: "ground",
+    },
+    {
+      name: "basePricePerDay",
+      type: "number",
+      required: true,
+      admin: {
+        description: "Price to rent the tent per day",
+      },
+    },
+    {
+      name: "stock",
+      type: "number",
+      required: true,
+      defaultValue: 1,
+      admin: {
+        description: "How many tents of this model are available?",
+      },
+    },
+    {
+      name: "bookings",
+      type: "relationship",
+      relationTo: "bookings",
+      hasMany: true,
+      admin: {
+        description: "Bookings that reserve this tent",
+      },
+    },
+    {
+      name: "gallery",
       type: "upload",
       relationTo: "media",
+      hasMany: true,
       required: false,
     },
   ],

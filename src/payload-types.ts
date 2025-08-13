@@ -70,11 +70,10 @@ export interface Config {
     users: User;
     media: Media;
     categories: Category;
-    cars: Car;
+    vehicles: Vehicle;
     brands: Brand;
-    transmissions: Transmission;
-    models: Model;
-    'add-ons': AddOn;
+    bookings: Booking;
+    addons: Addon;
     features: Feature;
     tents: Tent;
     'payload-locked-documents': PayloadLockedDocument;
@@ -86,11 +85,10 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
-    cars: CarsSelect<false> | CarsSelect<true>;
+    vehicles: VehiclesSelect<false> | VehiclesSelect<true>;
     brands: BrandsSelect<false> | BrandsSelect<true>;
-    transmissions: TransmissionsSelect<false> | TransmissionsSelect<true>;
-    models: ModelsSelect<false> | ModelsSelect<true>;
-    'add-ons': AddOnsSelect<false> | AddOnsSelect<true>;
+    bookings: BookingsSelect<false> | BookingsSelect<true>;
+    addons: AddonsSelect<false> | AddonsSelect<true>;
     features: FeaturesSelect<false> | FeaturesSelect<true>;
     tents: TentsSelect<false> | TentsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -195,24 +193,45 @@ export interface Category {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "cars".
+ * via the `definition` "vehicles".
  */
-export interface Car {
+export interface Vehicle {
   id: string;
+  /**
+   * Select the brand/manufacturer
+   */
   brand: string | Brand;
-  name: string;
-  slug?: string | null;
+  /**
+   * Model name (e.g., Land Cruiser Prado)
+   */
+  model: string;
+  slug: string;
   description?: string | null;
-  images?: (string | Media)[] | null;
-  price: number;
-  year: number;
-  horsepower: number;
-  transmission: 'Automatic' | 'Manual';
-  fuelType: 'Petrol' | 'Diesel' | 'Electric' | 'Hybrid';
-  seats?: number | null;
-  sleepingCapacity?: number | null;
-  siteKey?: string | null;
-  available?: boolean | null;
+  /**
+   * Features included with this vehicle
+   */
+  features?: (string | Feature)[] | null;
+  /**
+   * Tents built-in / included with this vehicle
+   */
+  includedTents?: (string | Tent)[] | null;
+  /**
+   * Optional add-ons available for this vehicle
+   */
+  optionalAddOns?: (string | Addon)[] | null;
+  /**
+   * Base rental price per day for this vehicle
+   */
+  basePricePerDay: number;
+  /**
+   * Number of vehicles available with these specs
+   */
+  stock: number;
+  /**
+   * Bookings for this vehicle
+   */
+  bookings?: (string | Booking)[] | null;
+  gallery?: (string | Media)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -230,46 +249,6 @@ export interface Brand {
    * Optional identifier to filter brands per site.
    */
   siteKey?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "transmissions".
- */
-export interface Transmission {
-  id: string;
-  label: string;
-  tagline: string;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "models".
- */
-export interface Model {
-  id: string;
-  brand: string | Brand;
-  name: string;
-  slug?: string | null;
-  /**
-   * Optional identifier to filter models per site.
-   */
-  siteKey?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "add-ons".
- */
-export interface AddOn {
-  id: string;
-  name: string;
-  slug: string;
-  description?: string | null;
-  basePrice?: number | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -296,10 +275,69 @@ export interface Tent {
   slug: string;
   description?: string | null;
   /**
-   * Number of people this tent can sleep
+   * How many people can the tent sleep?
    */
-  sleeps: number;
-  icon?: (string | null) | Media;
+  sleepingCapacity: number;
+  type: 'rooftop' | 'ground';
+  /**
+   * Price to rent the tent per day
+   */
+  basePricePerDay: number;
+  /**
+   * How many tents of this model are available?
+   */
+  stock: number;
+  /**
+   * Bookings that reserve this tent
+   */
+  bookings?: (string | Booking)[] | null;
+  gallery?: (string | Media)[] | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "bookings".
+ */
+export interface Booking {
+  id: string;
+  /**
+   * Unique booking identifier (auto-generate in your app)
+   */
+  bookingNumber: string;
+  /**
+   * User who made the booking
+   */
+  user: string | User;
+  /**
+   * Vehicle booked (if applicable)
+   */
+  vehicle?: (string | null) | Vehicle;
+  /**
+   * Tent booked (if applicable)
+   */
+  tent?: (string | null) | Tent;
+  startDate: string;
+  endDate: string;
+  status: 'pending' | 'confirmed' | 'cancelled';
+  /**
+   * Total price for the booking (calculated externally)
+   */
+  totalPrice?: number | null;
+  notes?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "addons".
+ */
+export interface Addon {
+  id: string;
+  name: string;
+  slug: string;
+  description?: string | null;
+  basePrice?: number | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -323,24 +361,20 @@ export interface PayloadLockedDocument {
         value: string | Category;
       } | null)
     | ({
-        relationTo: 'cars';
-        value: string | Car;
+        relationTo: 'vehicles';
+        value: string | Vehicle;
       } | null)
     | ({
         relationTo: 'brands';
         value: string | Brand;
       } | null)
     | ({
-        relationTo: 'transmissions';
-        value: string | Transmission;
+        relationTo: 'bookings';
+        value: string | Booking;
       } | null)
     | ({
-        relationTo: 'models';
-        value: string | Model;
-      } | null)
-    | ({
-        relationTo: 'add-ons';
-        value: string | AddOn;
+        relationTo: 'addons';
+        value: string | Addon;
       } | null)
     | ({
         relationTo: 'features';
@@ -447,23 +481,20 @@ export interface CategoriesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "cars_select".
+ * via the `definition` "vehicles_select".
  */
-export interface CarsSelect<T extends boolean = true> {
+export interface VehiclesSelect<T extends boolean = true> {
   brand?: T;
-  name?: T;
+  model?: T;
   slug?: T;
   description?: T;
-  images?: T;
-  price?: T;
-  year?: T;
-  horsepower?: T;
-  transmission?: T;
-  fuelType?: T;
-  seats?: T;
-  sleepingCapacity?: T;
-  siteKey?: T;
-  available?: T;
+  features?: T;
+  includedTents?: T;
+  optionalAddOns?: T;
+  basePricePerDay?: T;
+  stock?: T;
+  bookings?: T;
+  gallery?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -482,31 +513,26 @@ export interface BrandsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "transmissions_select".
+ * via the `definition` "bookings_select".
  */
-export interface TransmissionsSelect<T extends boolean = true> {
-  label?: T;
-  tagline?: T;
+export interface BookingsSelect<T extends boolean = true> {
+  bookingNumber?: T;
+  user?: T;
+  vehicle?: T;
+  tent?: T;
+  startDate?: T;
+  endDate?: T;
+  status?: T;
+  totalPrice?: T;
+  notes?: T;
   updatedAt?: T;
   createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "models_select".
+ * via the `definition` "addons_select".
  */
-export interface ModelsSelect<T extends boolean = true> {
-  brand?: T;
-  name?: T;
-  slug?: T;
-  siteKey?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "add-ons_select".
- */
-export interface AddOnsSelect<T extends boolean = true> {
+export interface AddonsSelect<T extends boolean = true> {
   name?: T;
   slug?: T;
   description?: T;
@@ -534,8 +560,12 @@ export interface TentsSelect<T extends boolean = true> {
   name?: T;
   slug?: T;
   description?: T;
-  sleeps?: T;
-  icon?: T;
+  sleepingCapacity?: T;
+  type?: T;
+  basePricePerDay?: T;
+  stock?: T;
+  bookings?: T;
+  gallery?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -578,80 +608,16 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
 export interface MainMenu {
   id: string;
   bookNowLink: string;
-  menu?:
-    | {
-        title: string;
-        description: string;
-        /**
-         * Add an image to the card
-         */
-        withImage?: boolean | null;
-        image?: (string | null) | Media;
-        id?: string | null;
-        blockName?: string | null;
-        blockType: 'menuCardImage';
-      }[]
-    | null;
   menuItems?:
     | {
         label: string;
         url: string;
-        megaMenu?:
-          | (
-              | {
-                  title: string;
-                  /**
-                   * Select up to 4 items to display
-                   */
-                  items?:
-                    | (
-                        | {
-                            relationTo: 'cars';
-                            value: string | Car;
-                          }
-                        | {
-                            relationTo: 'categories';
-                            value: string | Category;
-                          }
-                        | {
-                            relationTo: 'brands';
-                            value: string | Brand;
-                          }
-                      )[]
-                    | null;
-                  id?: string | null;
-                  blockName?: string | null;
-                  blockType: 'fourItemList';
-                }
-              | {
-                  image: string | Media;
-                  links?:
-                    | {
-                        label?: string | null;
-                        url?: string | null;
-                        id?: string | null;
-                      }[]
-                    | null;
-                  id?: string | null;
-                  blockName?: string | null;
-                  blockType: 'imageWithLinks';
-                }
-              | {
-                  title: string;
-                  categories?: (string | Category)[] | null;
-                  id?: string | null;
-                  blockName?: string | null;
-                  blockType: 'categoryGrid';
-                }
-            )[]
-          | null;
         id?: string | null;
       }[]
     | null;
   ourCars?: {
     categories?: (string | Category)[] | null;
     brands?: (string | Brand)[] | null;
-    transmissions?: (string | Transmission)[] | null;
   };
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -662,59 +628,11 @@ export interface MainMenu {
  */
 export interface MainMenuSelect<T extends boolean = true> {
   bookNowLink?: T;
-  menu?:
-    | T
-    | {
-        menuCardImage?:
-          | T
-          | {
-              title?: T;
-              description?: T;
-              withImage?: T;
-              image?: T;
-              id?: T;
-              blockName?: T;
-            };
-      };
   menuItems?:
     | T
     | {
         label?: T;
         url?: T;
-        megaMenu?:
-          | T
-          | {
-              fourItemList?:
-                | T
-                | {
-                    title?: T;
-                    items?: T;
-                    id?: T;
-                    blockName?: T;
-                  };
-              imageWithLinks?:
-                | T
-                | {
-                    image?: T;
-                    links?:
-                      | T
-                      | {
-                          label?: T;
-                          url?: T;
-                          id?: T;
-                        };
-                    id?: T;
-                    blockName?: T;
-                  };
-              categoryGrid?:
-                | T
-                | {
-                    title?: T;
-                    categories?: T;
-                    id?: T;
-                    blockName?: T;
-                  };
-            };
         id?: T;
       };
   ourCars?:
@@ -722,7 +640,6 @@ export interface MainMenuSelect<T extends boolean = true> {
     | {
         categories?: T;
         brands?: T;
-        transmissions?: T;
       };
   updatedAt?: T;
   createdAt?: T;

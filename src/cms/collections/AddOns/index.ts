@@ -1,7 +1,7 @@
 import type { CollectionConfig } from "payload";
 
 const AddOns: CollectionConfig = {
-  slug: "add-ons",
+  slug: "addons",
   labels: { singular: "Add-on", plural: "Add-ons" },
   admin: { useAsTitle: "name" },
   fields: [

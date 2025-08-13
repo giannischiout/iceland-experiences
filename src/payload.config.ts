@@ -11,12 +11,12 @@ import { Media } from "@/cms/collections/Media";
 import Categories from "@/cms/collections/Gategories";
 import Menus from "@/cms/collections/Globals/Menu";
 import Brands from "@/cms/collections/Brands";
-import { Transmissions } from "@/cms/collections/Transmitions";
-import Models from "@/cms/collections/Models";
-import Cars from "@/cms/collections/Car";
 import AddOns from "@/cms/collections/AddOns";
 import Features from "@/cms/collections/Features";
 import Tents from "@/cms/collections/Tents";
+import Bookings from "@/cms/collections/Bookings";
+import Vehicles from "@/cms/collections/Vehicles";
+import { initializeData } from "../seed";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -50,10 +50,9 @@ export default buildConfig({
     Users,
     Media,
     Categories,
-    Cars,
+    Vehicles,
     Brands,
-    Transmissions,
-    Models,
+    Bookings,
     AddOns,
     Features,
     Tents,
@@ -72,4 +71,9 @@ export default buildConfig({
     payloadCloudPlugin(),
     // storage-adapter-placeholder
   ],
+  onInit: async (payload) => {
+    if (process.env.SEED === "true") {
+      await initializeData(payload);
+    }
+  },
 });
