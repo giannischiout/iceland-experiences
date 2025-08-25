@@ -6,41 +6,36 @@
   --font-mono: 'Roboto Mono', monospace;
   --font-satoshi: 'Satoshi';
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.45 0 0);
+
+  /* Primary color system */
   --primary: oklch(0.609 0.075 139.835);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(1 0 89.876);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.733 0.006 17.288);
-  /*--accent: oklch(0.97 0 0);*/
-  --accent: oklch(0.348 0 89.876);
-  --accent-foreground: oklch(0.205 0 0);
+  --primary-light: oklch(0.95 0.02 139.835); /* very light shade of primary */
+  --primary-lighter: oklch(0.98 0.01 139.835); /* almost white */
+  --primary-dark: oklch(0.48 0.08 139.835); /* darker tone */
+  --primary-foreground: oklch(0.985 0 0); /* white text */
+  /* Base Colors */
+  --background: oklch(1 0 89.876);
+  --foreground: oklch(0.15 0 0);
+  /* Components based on primary shades */
+  --card: var(--primary-light);
+  --card-foreground: var(--foreground);
+  --popover: oklch(1 0 89.876);
+  --popover-foreground: var(--foreground);
+  /* Secondary & Accent (slightly tinted versions of primary) */
+  --secondary: oklch(0.98 0.006 84.566);
+  --secondary-foreground: var(--foreground);
+  --accent: oklch(0.88 0.06 139.835);
+  --accent-foreground: var(--foreground);
+  /* Muted & Borders */
+  --muted: var(--primary-lighter);
+  --muted-foreground: oklch(0.4 0.02 139.835);
+  --border: oklch(0.9 0.01 139.835);
+  --input: var(--border);
+  --ring: var(--primary);
+  /* Other */
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
   /* custom */
   --border-dark: oklch(0.773 0 89.876);
-
 }
 
 * {
@@ -81,14 +76,6 @@ svg {
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
   --color-border-dark: var(--border-dark);
   --font-mono: var(--font-mono);
   --font-satoshi: var(--font-satoshi);
@@ -176,6 +163,12 @@ svg {
   --rdp-range_middle: #7a9e72
 }
 
+
+
+.rdp {
+  width: 100%;
+}
+
 .rdp-selected {
   border-radius: 6px;
 }
@@ -213,4 +206,9 @@ svg {
   display: flex;
   justify-content: space-between;
   width: 100%;
+}
+
+
+.rdp-month {
+  flex: 1; /* 👈 each month takes up equal space */
 }

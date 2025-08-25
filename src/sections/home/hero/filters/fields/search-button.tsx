@@ -1,9 +1,15 @@
 import { IoSearchOutline } from "react-icons/io5";
 
-export const SearchButton = () => {
+type Props = {
+  onSubmit: () => void;
+};
+export const SearchButton = ({ onSubmit }: Props) => {
   return (
-    <button className="bg-primary hover:bg-primary/80 ml-3 flex h-11 w-11 items-center justify-center rounded-md font-bold text-white transition-colors duration-300 ease-in-out">
-      <IoSearchOutline size={24} />
+    <button
+      onClick={onSubmit}
+      className="bg-primary hover:bg-primary/80 mb-0.5 flex h-9 w-9 items-center justify-center rounded-sm font-bold text-white transition-colors duration-300 ease-in-out"
+    >
+      <IoSearchOutline size={18} />
     </button>
   );
 };

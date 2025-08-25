@@ -12,6 +12,7 @@ type Props = {
   maxMenuHeight?: number;
   className?: string;
   alignRight?: boolean;
+  top?: string;
 };
 
 export function Popover({
@@ -21,6 +22,8 @@ export function Popover({
   anchorRef,
   maxMenuHeight = 300,
   alignRight = false,
+  top = "120%", // 👈 default
+
   className,
 }: Props) {
   const ref = useClickOutside<HTMLDivElement>(onClose, anchorRef, open);
@@ -31,9 +34,12 @@ export function Popover({
       onDragStart={(e) => e.preventDefault()}
       aria-hidden={!open}
       ref={ref}
-      style={{ left: alignRight ? "400px" : 0 }}
+      style={{
+        left: alignRight ? "400px" : 0,
+        top,
+      }}
       className={cn(
-        "absolute top-[110%] left-0 z-40 min-w-[400px] overflow-hidden rounded-md bg-white p-2 shadow-lg select-none",
+        "absolute left-0 z-40 min-w-[400px] overflow-hidden rounded-md bg-white p-2 shadow-lg select-none",
         "transition-all duration-300 ease-in-out",
         open
           ? "pointer-events-auto opacity-100"

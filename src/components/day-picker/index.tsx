@@ -14,6 +14,7 @@ export function DayPicker({ selected, onChange }: DatePickerProps) {
       onSelect={onChange}
       numberOfMonths={2}
       pagedNavigation={false}
+      className="w-full"
     />
   );
 }

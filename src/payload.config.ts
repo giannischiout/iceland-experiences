@@ -17,6 +17,7 @@ import Tents from "@/cms/collections/Tents";
 import Bookings from "@/cms/collections/Bookings";
 import Vehicles from "@/cms/collections/Vehicles";
 import { initializeData } from "../seed";
+import { getFilters } from "@/cms/endpoints/filters";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -56,6 +57,13 @@ export default buildConfig({
     AddOns,
     Features,
     Tents,
+  ],
+  endpoints: [
+    {
+      path: "/getFilters",
+      method: "get",
+      handler: getFilters,
+    },
   ],
   globals: [Menus],
   editor: lexicalEditor(),

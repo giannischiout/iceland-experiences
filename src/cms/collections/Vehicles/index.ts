@@ -15,6 +15,13 @@ const Vehicles: CollectionConfig = {
   },
   fields: [
     {
+      name: "gallery",
+      type: "upload",
+      relationTo: "media",
+      hasMany: true,
+      required: false,
+    },
+    {
       name: "brand",
       type: "relationship",
       relationTo: "brands",
@@ -45,6 +52,12 @@ const Vehicles: CollectionConfig = {
       name: "description",
       type: "textarea",
       localized: true,
+    },
+    {
+      name: "category",
+      type: "relationship",
+      relationTo: "categories",
+      hasMany: true,
     },
     {
       name: "features",
@@ -91,6 +104,21 @@ const Vehicles: CollectionConfig = {
       },
     },
     {
+      name: "sleeps",
+      type: "number",
+      required: true,
+      defaultValue: 0,
+      admin: {
+        description: "Number people the vehicle can accommodate",
+      },
+    },
+    {
+      name: "seats",
+      type: "number",
+      required: true,
+      defaultValue: 5,
+    },
+    {
       name: "bookings",
       type: "relationship",
       relationTo: "bookings",
@@ -98,13 +126,6 @@ const Vehicles: CollectionConfig = {
       admin: {
         description: "Bookings for this vehicle",
       },
-    },
-    {
-      name: "gallery",
-      type: "upload",
-      relationTo: "media",
-      hasMany: true,
-      required: false,
     },
   ],
 };

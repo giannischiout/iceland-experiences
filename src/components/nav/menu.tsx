@@ -19,7 +19,10 @@ export const NavMenu = ({ anchorRef, onOpen, navData }: Props) => {
     setActive(navItemID);
   };
   return (
-    <ul ref={anchorRef} className="flex flex-1 items-center gap-2">
+    <ul
+      ref={anchorRef}
+      className="flex flex-1 items-center justify-center gap-2"
+    >
       {navData.map((item) => {
         return (
           <li

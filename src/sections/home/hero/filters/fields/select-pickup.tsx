@@ -21,11 +21,13 @@ type Props = {
   alignRight?: boolean;
   label?: string;
   isDatePickerOpen: boolean;
+  top: string;
 };
 
 export function SelectPickup({
   open,
   label = "Pickup",
+  top,
   anchorRef,
   onClose,
   onToggle,
@@ -51,6 +53,7 @@ export function SelectPickup({
         value={value.label}
       />
       <Popover
+        top={top}
         alignRight={alignRight}
         anchorRef={anchorRef}
         open={open}

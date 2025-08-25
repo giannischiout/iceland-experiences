@@ -8,9 +8,7 @@ export async function HomePageView() {
         <BackgroundImage />
         <Filters />
       </div>
-      <div className="flex h-[12vh] items-center justify-center bg-red-100">
-        {/*<span>test</span>*/}pnpmπν
-      </div>
+      <div className="flex h-[12vh] items-center justify-center bg-red-100" />
     </section>
   );
 }

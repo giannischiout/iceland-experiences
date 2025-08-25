@@ -28,7 +28,7 @@ export const FieldWrapper = ({
       )}
     >
       <span className={cn("text-sm", labelStyle)}>{label}</span>
-      <div className="bg-primary/5 flex h-[40px] max-w-[180px] items-center gap-2 rounded-md px-2 font-medium whitespace-nowrap">
+      <div className="bg-secondary flex h-[40px] max-w-[180px] items-center gap-2 rounded-md px-2 font-medium whitespace-nowrap">
         <MapPin size={30} className="text-primary" />
         <span className="max-w-[150px] truncate overflow-hidden">{value}</span>
       </div>

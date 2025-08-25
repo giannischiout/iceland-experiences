@@ -1,31 +1,23 @@
 "use client";
-import { locations, timeOptions } from "@/_mockup";
-
-import { useRef } from "react";
-import { Popover } from "@/components/popover";
+import { SelectPickup } from "@/sections/home/hero/filters/fields/select-pickup";
 import {
   POPOVERS,
   useHeroFilters,
 } from "@/sections/home/hero/filters/hooks/use-hero-filters";
-import { SelectPickup } from "@/sections/home/hero/filters/fields/select-pickup";
-import { SearchButton } from "@/sections/home/hero/filters/fields/search-button";
-import { FilterRow, HeaderSection } from "@/sections/home/hero/blocks";
-import dayjs from "dayjs";
+import { locations, timeOptions } from "@/_mockup";
 import { DateTimeTriggerWrapper } from "@/sections/home/hero/filters/fields/date-time-picker/container";
 import { DateTrigger } from "@/sections/home/hero/filters/fields/date-time-picker/date-trigger";
+import dayjs from "dayjs";
 import { TimeTrigger } from "@/sections/home/hero/filters/fields/date-time-picker/time-trigger";
+import { SearchButton } from "@/sections/home/hero/filters/fields/search-button";
+import { Popover } from "@/components/popover";
 import { DayPicker } from "@/components/day-picker";
+import { Divider } from "@/sections/home/hero/filters";
+import { useRef } from "react";
 
-export const Filters = () => {
-  const {
-    onClose,
-    onChange,
-    onToggle,
-    state,
-    openPopover,
-    onDateRangeChange,
-    onFiltersSubmit,
-  } = useHeroFilters();
+export function BookingFilters() {
+  const { onClose, onChange, onToggle, state, openPopover, onDateRangeChange } =
+    useHeroFilters();
   //
   const pickupRef = useRef<HTMLDivElement | null>(null);
   const dropoffRef = useRef<HTMLDivElement | null>(null);
@@ -36,16 +28,12 @@ export const Filters = () => {
 
   const isDatePickerOpen = openPopover === POPOVERS.dateRange;
 
-  const handleSubmit = () => {
-    onFiltersSubmit("/book/vehicles");
-  };
   return (
-    <div className="z-20 flex h-full w-full flex-1 flex-col items-center justify-center gap-12">
-      <HeaderSection hidden={isDatePickerOpen} />
-      <FilterRow isDatePickerOpen={isDatePickerOpen}>
-        <div className="flex items-center gap-4">
+    <div className="sticky top-0 flex w-full items-center justify-center gap-4 border-t-1 border-gray-200 bg-white p-4 shadow-[0_4px_4px_rgba(0,0,0,0.03)]">
+      <div className="relative flex items-end justify-center gap-4">
+        <div className="flex items-end gap-4">
           <SelectPickup
-            top="110%"
+            top="120%"
             isDatePickerOpen={isDatePickerOpen}
             open={openPopover === POPOVERS.pickup}
             onClose={onClose}
@@ -76,7 +64,7 @@ export const Filters = () => {
         <Divider />
         <div className="flex items-center gap-6">
           <SelectPickup
-            top="110%"
+            top="120%"
             isDatePickerOpen={isDatePickerOpen}
             anchorRef={dropoffRef}
             label="Dropoff"
@@ -108,31 +96,21 @@ export const Filters = () => {
           </DateTimeTriggerWrapper>
         </div>
         <Divider />
-        <SearchButton onSubmit={handleSubmit} />
+        <SearchButton onSubmit={() => {}} />
         {/* date popover */}
         <Popover
-          top="110%"
+          top="120%"
           maxMenuHeight={450}
           className="w-full duration-500"
           onClose={onClose}
           open={openPopover === POPOVERS.dateRange}
           anchorRef={pickupDateRef}
         >
-          <div className="flex w-full justify-center">
+          <div className="flex w-full justify-center bg-red-100">
             <DayPicker onChange={onDateRangeChange} selected={state.range} />
           </div>
         </Popover>
-      </FilterRow>
-    </div>
-  );
-};
-
-export const Divider = () => {
-  return (
-    <div className="flex h-full items-end">
-      <div className="flex h-[39px] items-center justify-center">
-        <div className="bg-primary/20 h-[15px] w-[1px] rounded-md" />
       </div>
     </div>
   );
-};
+}

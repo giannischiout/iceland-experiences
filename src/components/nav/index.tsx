@@ -6,7 +6,6 @@ import { NavMenu } from "@/components/nav/menu";
 import type { ActiveState } from "@/components/nav/types";
 import { navData } from "@/routes";
 import { Logo } from "@/components/logo";
-import { MegaMenu } from "@/components/nav/mega-menu";
 import type { MainMenu } from "@/payload-types";
 import { Profile } from "@/components/nav/profile";
 
@@ -31,10 +30,10 @@ export function Navbar({ data }: Props) {
   ); // handler, ref, isOpen
 
   return (
-    <div className="flex w-full flex-col items-center">
+    <div className="m-auto flex w-[98%] flex-col items-center bg-white">
       <nav
         style={{ zIndex: 9999 }}
-        className="relative grid w-full grid-cols-[90px_1fr_200px] justify-center p-4 text-lg font-medium"
+        className="relative grid w-full grid-cols-[200px_1fr_200px] justify-center p-4 text-lg font-medium"
       >
         <Logo />
         <NavMenu
@@ -48,7 +47,7 @@ export function Navbar({ data }: Props) {
           <Profile />
         </div>
       </nav>
-      <MegaMenu data={data} open={!!active} ref={ref} active={active} />
+      {/*<MegaMenu data={data} open={!!active} ref={ref} active={active} />*/}
     </div>
   );
 }

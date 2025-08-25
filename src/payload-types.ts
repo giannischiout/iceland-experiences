@@ -197,6 +197,7 @@ export interface Category {
  */
 export interface Vehicle {
   id: string;
+  gallery?: (string | Media)[] | null;
   /**
    * Select the brand/manufacturer
    */
@@ -207,6 +208,7 @@ export interface Vehicle {
   model: string;
   slug: string;
   description?: string | null;
+  category?: (string | Category)[] | null;
   /**
    * Features included with this vehicle
    */
@@ -228,10 +230,14 @@ export interface Vehicle {
    */
   stock: number;
   /**
+   * Number people the vehicle can accommodate
+   */
+  sleeps: number;
+  seats: number;
+  /**
    * Bookings for this vehicle
    */
   bookings?: (string | Booking)[] | null;
-  gallery?: (string | Media)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -484,17 +490,20 @@ export interface CategoriesSelect<T extends boolean = true> {
  * via the `definition` "vehicles_select".
  */
 export interface VehiclesSelect<T extends boolean = true> {
+  gallery?: T;
   brand?: T;
   model?: T;
   slug?: T;
   description?: T;
+  category?: T;
   features?: T;
   includedTents?: T;
   optionalAddOns?: T;
   basePricePerDay?: T;
   stock?: T;
+  sleeps?: T;
+  seats?: T;
   bookings?: T;
-  gallery?: T;
   updatedAt?: T;
   createdAt?: T;
 }

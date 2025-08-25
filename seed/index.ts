@@ -12,5 +12,5 @@ export const initializeData = async (payload: Payload) => {
   await seedFeatures(payload);
   await seedBrands(payload);
   await seedCategories(payload);
-  await seedVehicles(payload);
+  // await seedVehicles(payload);
 };
