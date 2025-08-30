@@ -76,6 +76,8 @@ export interface Config {
     addons: Addon;
     features: Feature;
     tents: Tent;
+    posts: Post;
+    postCategories: PostCategory;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -91,6 +93,8 @@ export interface Config {
     addons: AddonsSelect<false> | AddonsSelect<true>;
     features: FeaturesSelect<false> | FeaturesSelect<true>;
     tents: TentsSelect<false> | TentsSelect<true>;
+    posts: PostsSelect<false> | PostsSelect<true>;
+    postCategories: PostCategoriesSelect<false> | PostCategoriesSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -99,10 +103,10 @@ export interface Config {
     defaultIDType: string;
   };
   globals: {
-    mainMenu: MainMenu;
+    navigation: Navigation;
   };
   globalsSelect: {
-    mainMenu: MainMenuSelect<false> | MainMenuSelect<true>;
+    navigation: NavigationSelect<false> | NavigationSelect<true>;
   };
   locale: 'en' | 'de' | 'es';
   user: User & {
@@ -197,6 +201,7 @@ export interface Category {
  */
 export interface Vehicle {
   id: string;
+  image?: (string | null) | Media;
   gallery?: (string | Media)[] | null;
   /**
    * Select the brand/manufacturer
@@ -208,7 +213,7 @@ export interface Vehicle {
   model: string;
   slug: string;
   description?: string | null;
-  category?: (string | Category)[] | null;
+  category?: (string | null) | Category;
   /**
    * Features included with this vehicle
    */
@@ -349,6 +354,68 @@ export interface Addon {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "posts".
+ */
+export interface Post {
+  id: string;
+  title: string;
+  category: string | PostCategory;
+  slug: string;
+  status?: ('draft' | 'published') | null;
+  publishedAt?: string | null;
+  featuredImage?: (string | null) | Media;
+  gallery?:
+    | {
+        image: string | Media;
+        caption?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  tags?:
+    | {
+        tag?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  meta?: {
+    metaTitle?: string | null;
+    metaDescription?: string | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "postCategories".
+ */
+export interface PostCategory {
+  id: string;
+  title: string;
+  slug: string;
+  meta?: {
+    metaTitle?: string | null;
+    metaDescription?: string | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -389,6 +456,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'tents';
         value: string | Tent;
+      } | null)
+    | ({
+        relationTo: 'posts';
+        value: string | Post;
+      } | null)
+    | ({
+        relationTo: 'postCategories';
+        value: string | PostCategory;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -490,6 +565,7 @@ export interface CategoriesSelect<T extends boolean = true> {
  * via the `definition` "vehicles_select".
  */
 export interface VehiclesSelect<T extends boolean = true> {
+  image?: T;
   gallery?: T;
   brand?: T;
   model?: T;
@@ -580,6 +656,56 @@ export interface TentsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "posts_select".
+ */
+export interface PostsSelect<T extends boolean = true> {
+  title?: T;
+  category?: T;
+  slug?: T;
+  status?: T;
+  publishedAt?: T;
+  featuredImage?: T;
+  gallery?:
+    | T
+    | {
+        image?: T;
+        caption?: T;
+        id?: T;
+      };
+  tags?:
+    | T
+    | {
+        tag?: T;
+        id?: T;
+      };
+  description?: T;
+  meta?:
+    | T
+    | {
+        metaTitle?: T;
+        metaDescription?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "postCategories_select".
+ */
+export interface PostCategoriesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  meta?:
+    | T
+    | {
+        metaTitle?: T;
+        metaDescription?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents_select".
  */
 export interface PayloadLockedDocumentsSelect<T extends boolean = true> {
@@ -612,43 +738,35 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "mainMenu".
+ * via the `definition` "navigation".
  */
-export interface MainMenu {
+export interface Navigation {
   id: string;
-  bookNowLink: string;
-  menuItems?:
-    | {
-        label: string;
-        url: string;
-        id?: string | null;
-      }[]
-    | null;
-  ourCars?: {
+  vehicles?: {
     categories?: (string | Category)[] | null;
-    brands?: (string | Brand)[] | null;
+    bestSellingVehicles?: (string | Vehicle)[] | null;
+  };
+  trip?: {
+    posts?: (string | Post)[] | null;
   };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "mainMenu_select".
+ * via the `definition` "navigation_select".
  */
-export interface MainMenuSelect<T extends boolean = true> {
-  bookNowLink?: T;
-  menuItems?:
-    | T
-    | {
-        label?: T;
-        url?: T;
-        id?: T;
-      };
-  ourCars?:
+export interface NavigationSelect<T extends boolean = true> {
+  vehicles?:
     | T
     | {
         categories?: T;
-        brands?: T;
+        bestSellingVehicles?: T;
+      };
+  trip?:
+    | T
+    | {
+        posts?: T;
       };
   updatedAt?: T;
   createdAt?: T;

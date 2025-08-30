@@ -15,6 +15,12 @@ const Vehicles: CollectionConfig = {
   },
   fields: [
     {
+      name: "image",
+      type: "upload",
+      relationTo: "media",
+      required: false,
+    },
+    {
       name: "gallery",
       type: "upload",
       relationTo: "media",
@@ -57,7 +63,6 @@ const Vehicles: CollectionConfig = {
       name: "category",
       type: "relationship",
       relationTo: "categories",
-      hasMany: true,
     },
     {
       name: "features",

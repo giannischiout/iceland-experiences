@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export async function HomePageView() {
   return (
-    <section className="relative flex h-[88vh] w-full flex-col items-center overflow-hidden">
+    <section className="relative flex h-[calc(100vh-80px)] w-full flex-col items-center overflow-hidden">
       <div className="relative flex w-full flex-1">
         <BackgroundImage />
         <Filters />

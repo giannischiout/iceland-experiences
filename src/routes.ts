@@ -1,33 +1,28 @@
 export type NavItem = {
   id: string;
   label: string;
-  path: string;
+  path?: string;
 };
 
 export const navData = [
   {
-    id: "home",
-    label: "Home",
+    id: "book_now",
+    label: "Book now",
     path: "/",
   },
   {
-    id: "rv-models",
-    label: "RV Models",
-    path: "/rv-models",
-  },
-  {
-    id: "rental-location",
-    label: "Rental Location",
-    path: "/rental-location",
+    id: "vehicles",
+    label: "Vehicles",
+    megaMenu: true,
   },
   {
     id: "road-trip",
     label: "Road Trips",
-    path: "/road-trips",
+    megaMenu: true,
   },
   {
     id: "adventure-cars",
     label: "Adventure Cars",
-    path: "/adventure-cars",
+    megaMenu: true,
   },
 ];

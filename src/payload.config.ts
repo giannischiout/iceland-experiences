@@ -9,7 +9,6 @@ import sharp from "sharp";
 import { Users } from "@/cms/collections/Users";
 import { Media } from "@/cms/collections/Media";
 import Categories from "@/cms/collections/Gategories";
-import Menus from "@/cms/collections/Globals/Menu";
 import Brands from "@/cms/collections/Brands";
 import AddOns from "@/cms/collections/AddOns";
 import Features from "@/cms/collections/Features";
@@ -18,6 +17,9 @@ import Bookings from "@/cms/collections/Bookings";
 import Vehicles from "@/cms/collections/Vehicles";
 import { initializeData } from "../seed";
 import { getFilters } from "@/cms/endpoints/filters";
+import { Navigation } from "@/cms/collections/Globals/Navigation";
+import { PostsCategories } from "@/cms/collections/PostCategories";
+import { Posts } from "@/cms/collections/Posts";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -57,6 +59,9 @@ export default buildConfig({
     AddOns,
     Features,
     Tents,
+    //
+    Posts,
+    PostsCategories,
   ],
   endpoints: [
     {
@@ -65,7 +70,7 @@ export default buildConfig({
       handler: getFilters,
     },
   ],
-  globals: [Menus],
+  globals: [Navigation],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || "",
   typescript: {
