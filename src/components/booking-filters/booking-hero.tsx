@@ -14,8 +14,10 @@ import { SearchButton } from "@/components/booking-filters/fields/search-button"
 import { Popover } from "@/components/popover";
 import { DayPicker } from "@/components/day-picker";
 import { SelectPickup } from "@/components/booking-filters/fields/select-pickup";
+import { BookingFilterGroup } from "@/components/booking-filters/fields/field-group";
+import { cn } from "@/lib/utils";
 
-export function BookingFilters() {
+export function BookingHeroFilters() {
   const { onClose, onChange, onToggle, state, openPopover, onDateRangeChange } =
     useHeroFilters();
   //
@@ -27,41 +29,28 @@ export function BookingFilters() {
   const dropoffTimeRef = useRef<HTMLDivElement | null>(null);
 
   const isDatePickerOpen = openPopover === POPOVERS.dateRange;
+  console.log({ openPopover });
 
   return (
-    <div className="sticky top-0 flex w-full items-center justify-center gap-4 border-t-1 border-gray-200 bg-white p-4 shadow-[0_4px_4px_rgba(0,0,0,0.03)]">
+    <div
+      className={cn(
+        "relative z-10 flex translate-y-0 items-center gap-6 rounded-2xl bg-white p-6 opacity-100 shadow-lg transition-transform duration-200 ease-in-out",
+        isDatePickerOpen && "-translate-y-[180%] delay-300",
+      )}
+    >
       <div className="relative flex items-end justify-center gap-4">
         {/* left */}
-        <div className="flex items-end gap-4">
-          <SelectPickup
-            top="120%"
-            isDatePickerOpen={isDatePickerOpen}
-            open={openPopover === POPOVERS.pickup}
-            onClose={onClose}
-            onToggle={() => onToggle(POPOVERS.pickup)}
-            anchorRef={pickupRef}
-            options={locations}
-            value={state.pickup}
-            onChange={(val) => onChange(POPOVERS.pickup, val)}
-          />
-          <DateTimeTriggerWrapper label="Pickup Date">
-            <DateTrigger
-              value={dayjs(state.range.from).format("MMM D")}
-              anchorRef={pickupDateRef}
-              onClick={() => onToggle(POPOVERS.dateRange)}
-            />
-            <div className="h-[50%] w-[1px] bg-gray-400" />
-            <TimeTrigger
-              open={openPopover === POPOVERS.pickupTime}
-              options={timeOptions}
-              value={state.pickupTime}
-              anchorRef={pickupTimeRef}
-              onClose={onClose}
-              onToggle={() => onToggle(POPOVERS.pickupTime)}
-              onChange={(val) => onChange(POPOVERS.pickupTime, val)}
-            />
-          </DateTimeTriggerWrapper>
-        </div>
+        <BookingFilterGroup
+          isDatePickerOpen={isDatePickerOpen}
+          pickupRef={pickupRef}
+          pickupDateRef={pickupDateRef}
+          pickupTimeRef={pickupTimeRef}
+          state={state}
+          openPopover={openPopover}
+          onChange={onChange}
+          onToggle={onToggle}
+          onClose={onClose}
+        />
         <BookingDivider />
         {/* right */}
         <div className="flex items-center gap-6">

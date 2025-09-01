@@ -20,9 +20,11 @@ type Props = {
   onChange: (option: TimeOption) => void;
   onToggle: () => void;
   alignRight?: boolean;
+  top: string;
 };
 
 export function TimeTrigger({
+  top,
   anchorRef,
   alignRight = false,
   open,
@@ -32,6 +34,10 @@ export function TimeTrigger({
   onToggle,
   onChange,
 }: Props) {
+  const handleChange = (newValue: TimeOption) => {
+    onChange(newValue);
+    onClose();
+  };
   return (
     <>
       <div
@@ -42,6 +48,7 @@ export function TimeTrigger({
         <span>{value.label}</span>
       </div>
       <Popover
+        top={top}
         alignRight={alignRight}
         anchorRef={anchorRef}
         open={open}
@@ -54,7 +61,7 @@ export function TimeTrigger({
             <div
               key={option.value}
               onDragStart={(e) => e.preventDefault()}
-              onClick={() => onChange(option)}
+              onClick={() => handleChange(option)}
               className={cn(
                 "flex cursor-pointer items-center gap-2 p-2 pb-3",
                 isActive ? "text-foreground font-medium" : "text-gray-500",

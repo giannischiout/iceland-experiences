@@ -9,7 +9,11 @@ export function useClickOutside<T extends HTMLElement>(
   open: boolean,
 ): RefObject<T | null> {
   const ref = useRef<T>(null);
+
   useEffect(() => {
+    console.log("fires");
+    console.log({ open });
+
     if (!open) return;
     const listener = (event: MouseEvent | TouchEvent) => {
       const dropdownEl = ref.current;
@@ -20,7 +24,7 @@ export function useClickOutside<T extends HTMLElement>(
         (anchorEl && anchorEl.contains(target)) ||
         (dropdownEl && dropdownEl.contains(target))
       ) {
-        return () => {};
+        return;
       }
       handler();
     };
@@ -30,6 +34,6 @@ export function useClickOutside<T extends HTMLElement>(
       document.removeEventListener("mousedown", listener);
       document.removeEventListener("touchstart", listener);
     };
-  }, [handler, anchorRef]);
+  }, [handler, anchorRef, open]);
   return ref;
 }

@@ -8,7 +8,7 @@ type Props = {
   children: ReactNode;
   onClose: () => void;
   open: boolean;
-  anchorRef: RefObject<any>;
+  anchorRef: RefObject<HTMLDivElement | null>;
   maxMenuHeight?: number;
   className?: string;
   alignRight?: boolean;
@@ -23,7 +23,6 @@ export function Popover({
   maxMenuHeight = 300,
   alignRight = false,
   top = "120%", // 👈 default
-
   className,
 }: Props) {
   const ref = useClickOutside<HTMLDivElement>(onClose, anchorRef, open);

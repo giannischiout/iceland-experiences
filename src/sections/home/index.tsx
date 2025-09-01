@@ -1,12 +1,27 @@
-import { Filters } from "@/sections/home/hero/filters";
-import Image from "next/image";
+"use client";
 
-export async function HomePageView() {
+import Image from "next/image";
+import { FilterPanel } from "@/components/booking-filters/index2";
+import { cn } from "@/lib/utils";
+import { useFilterStore } from "@/store/use-filters-store";
+
+export function HomePageView() {
+  const { openPopover } = useFilterStore();
+  const isDatePickerOpen = openPopover === "dateRange";
   return (
     <section className="relative flex h-[calc(100vh-80px)] w-full flex-col items-center overflow-hidden">
       <div className="relative flex w-full flex-1">
         <BackgroundImage />
-        <Filters />
+        <div className="z-20 flex h-full w-full flex-1 flex-col items-center justify-center gap-12">
+          <div
+            className={cn(
+              "relative z-10 flex translate-y-0 items-center gap-6 rounded-2xl bg-white p-6 opacity-100 shadow-lg transition-transform delay-300 duration-200 ease-in-out",
+              isDatePickerOpen && "-translate-y-[180%] delay-300",
+            )}
+          >
+            <FilterPanel top="110%" />
+          </div>
+        </div>
       </div>
       <div className="flex h-[12vh] items-center justify-center bg-red-100" />
     </section>
