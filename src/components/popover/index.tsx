@@ -20,7 +20,7 @@ export function Popover({
   onClose,
   open,
   anchorRef,
-  maxMenuHeight = 300,
+  maxMenuHeight,
   alignRight = false,
   top = "120%", // 👈 default
   className,
@@ -52,7 +52,7 @@ export function Popover({
         }}
         autoHide
       >
-        <div className="flex flex-col gap-1 pb-2">{children}</div>
+        <div className="flex flex-col">{children}</div>
       </SimpleBar>
     </div>
   );

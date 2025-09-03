@@ -141,11 +141,11 @@ svg {
 
 .rdp-root {
   --rdp-accent-color: var(--primary);
-  --rdp-day-height: 48px;
-  --rdp-day-width: 48px;
+  --rdp-day-height: 60px;  /* bigger height */
+  --rdp-day-width: 60px;   /* bigger width */
+  --rdp-day-margin: 10px;   /* add spacing between days */
   /*--rdp-range_middle-background-color: #f4f3f3;*/
   /*--rdp-background-color: #f9f9f9;*/
-  --rdp-day-margin: 4px; /* Adds spacing between day buttons */
   --rdp-day-hover-background-color: var(--primary);
 
   /* Default day styles */
@@ -169,14 +169,22 @@ svg {
   width: 100%;
 }
 
+
 .rdp-selected {
   border-radius: 6px;
 }
 
+/* main calendar day button size color */
 .rdp-day_button {
-  background-color: #fef8f8;
+  background-color: #f6f6f5;
   border-radius: 6px !important; /* enforce radius */
+  width: 54px;   /* ⬅️ increase size */
+  height: 54px;  /* ⬅️ increase size */
+  font-size: 0.9rem; /* ⬅️ adjust text size */
+  line-height: 56px; /* keep text centered vertically */
 }
+
+
 
 .rdp-range_middle {
   font-weight: lighter;
@@ -194,7 +202,7 @@ svg {
   background: #ffffff;
 }
 .rdp-day.rdp-range_middle .rdp-day_button {
-  background-color:  #ffe8dc;  /* light background */
+  background-color: rgba(122, 158, 114, 0.17);  /* light background */;  /* light background */
   border-radius: 6px;
   color: #393838;
   font-weight: normal;

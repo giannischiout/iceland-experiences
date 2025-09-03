@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import dayjs from "dayjs";
 import { locations, timeOptions } from "@/_mockup";
+import type { DateRange } from "react-day-picker";
 
 export enum POPOVERS {
   pickup = "pickup",
@@ -10,7 +11,6 @@ export enum POPOVERS {
   dateRange = "dateRange",
 }
 
-type DateRange = { from: Date; to: Date };
 type Location = (typeof locations)[number];
 type TimeOption = (typeof timeOptions)[number];
 
@@ -19,10 +19,15 @@ type FiltersState = {
   dropoff: Location;
   pickupTime: TimeOption;
   dropoffTime: TimeOption;
-  range: DateRange;
+  range: {
+    from: DateRange["from"] | null;
+    to: DateRange["to"] | null;
+  };
   openPopover: PopoverKey | null;
+  dayPickerMounted: false;
 };
-type PopoverKey = keyof typeof POPOVERS; // "pickup" | "returnPickup" | ...
+
+export type PopoverKey = keyof typeof POPOVERS; // "pickup" | "returnPickup" | ...
 
 type FiltersActions = {
   setField: <K extends keyof FiltersState>(
@@ -32,34 +37,47 @@ type FiltersActions = {
   reset: () => void;
   onToggle: (popover: PopoverKey | null) => void;
   onClose: (key: PopoverKey) => void;
-  setDateField: (dateRange: DateRange) => void;
+  setDateField: (range: DateRange) => void;
 };
 
 type FiltersStore = FiltersState & FiltersActions;
 
 export const createFiltersStore = (initial?: Partial<FiltersState>) =>
-  create<FiltersStore>((set) => ({
+  create<FiltersStore>((set, get) => ({
+    dayPickerMounted: false,
     pickup: initial?.pickup || locations[0],
     dropoff: initial?.dropoff || locations[1],
     pickupTime: initial?.pickupTime || timeOptions[0],
     dropoffTime: initial?.dropoffTime || timeOptions[1],
-    range: initial?.range || {
-      from: dayjs().toDate(),
-      to: dayjs().add(1, "day").toDate(),
-    },
+    range: { from: null, to: null },
     openPopover: null,
     setField: (key, value) =>
       set((state) => ({
         ...state,
         [key]: value,
       })),
-    setDateField: (dateRange) => {
-      set((state) => {
-        return {
-          ...state,
-          range: dateRange,
-        };
-      });
+    setDateField: (newRange) => {
+      // if (!newRange) return;
+      const normalized = {
+        from: newRange.from ?? null,
+        // to: newRange.to && newRange.from !== newRange.to ? newRange.to : null,
+        to: newRange.to,
+      };
+
+      set((state) => ({
+        ...state,
+        range: normalized,
+      }));
+      const { range } = get();
+
+      // if (range.from && range.to) {
+      //   setTimeout(() => {
+      //     set((state) => ({
+      //       ...state,
+      //       openPopover: null,
+      //     }));
+      //   }, 300); // 300ms delay
+      // }
     },
     reset: () =>
       set({
@@ -67,7 +85,7 @@ export const createFiltersStore = (initial?: Partial<FiltersState>) =>
         dropoff: initial?.dropoff || locations[1],
         pickupTime: initial?.pickupTime || timeOptions[0],
         dropoffTime: initial?.dropoffTime || timeOptions[1],
-        range: initial?.range || {
+        range: {
           from: dayjs().toDate(),
           to: dayjs().add(1, "day").toDate(),
         },

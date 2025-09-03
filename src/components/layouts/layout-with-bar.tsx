@@ -1,5 +1,4 @@
 import type { ReactNode } from "react";
-import { BookingFilters } from "@/components/booking-filters";
 
 type Props = {
   children: ReactNode;
@@ -7,7 +6,7 @@ type Props = {
 export function LayoutWithBar({ children }: Props) {
   return (
     <>
-      <BookingFilters />
+      {/*<BookingFilters />*/}
       {children}
     </>
   );

@@ -11,9 +11,6 @@ export function useClickOutside<T extends HTMLElement>(
   const ref = useRef<T>(null);
 
   useEffect(() => {
-    console.log("fires");
-    console.log({ open });
-
     if (!open) return;
     const listener = (event: MouseEvent | TouchEvent) => {
       const dropdownEl = ref.current;

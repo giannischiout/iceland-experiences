@@ -2,12 +2,18 @@ import { Calendar } from "lucide-react";
 import type { RefObject } from "react";
 
 type Props = {
-  value: string;
+  value: string | null;
   anchorRef: RefObject<HTMLDivElement | null>;
   onClick: () => void;
+  placeholder?: string;
 };
 
-export function DateTrigger({ value, anchorRef, onClick }: Props) {
+export function DateTrigger({
+  placeholder = "Add Date",
+  value,
+  anchorRef,
+  onClick,
+}: Props) {
   return (
     <div
       ref={anchorRef}
@@ -15,7 +21,7 @@ export function DateTrigger({ value, anchorRef, onClick }: Props) {
       className="flex cursor-pointer items-center gap-2 font-medium"
     >
       <Calendar size={16} className="text-gray-400" />
-      <span>{value}</span>
+      <span className="font-medium">{value ? value : placeholder}</span>
     </div>
   );
 }

@@ -5,11 +5,15 @@ import { useClickOutside } from "@/hooks/use-click-outside";
 import type { Navigation } from "@/payload-types";
 import { MegaMenu } from "@/components/nav/desktop-menu/mega-menu";
 import { ChevronDown } from "lucide-react";
+import { POPOVERS, useFilterStore } from "@/store/use-filters-store";
 
 type Props = {
   data: Navigation;
 };
 export function DesktopMenu({ data }: Props) {
+  //
+  const { onToggle } = useFilterStore();
+  //
   const [active, setActive] = useState<string | null>(null);
   const anchorRef = useRef<HTMLUListElement>(null);
 
@@ -26,6 +30,10 @@ export function DesktopMenu({ data }: Props) {
       setActive(null);
     }, 25);
   };
+
+  const onBookNow = () => {
+    onToggle(POPOVERS.dateRange);
+  };
   return (
     <div>
       <ul
@@ -33,7 +41,7 @@ export function DesktopMenu({ data }: Props) {
         ref={anchorRef}
         className="flex flex-1 items-center justify-center gap-2"
       >
-        <NavItem label="Book Now" />
+        <NavItem label="Book Now" onClick={onBookNow} />
         <NavItem
           label="Our Vehicles"
           onMouseOver={() => handleActive("vehicles")}

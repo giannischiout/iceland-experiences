@@ -1,9 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { FilterPanel } from "@/components/booking-filters/index2";
+import { FilterPanel } from "@/components/booking-filters";
 import { cn } from "@/lib/utils";
 import { useFilterStore } from "@/store/use-filters-store";
+import { HeaderSection } from "@/sections/home/hero/blocks";
 
 export function HomePageView() {
   const { openPopover } = useFilterStore();
@@ -13,10 +14,11 @@ export function HomePageView() {
       <div className="relative flex w-full flex-1">
         <BackgroundImage />
         <div className="z-20 flex h-full w-full flex-1 flex-col items-center justify-center gap-12">
+          <HeaderSection hidden={isDatePickerOpen} />
           <div
             className={cn(
               "relative z-10 flex translate-y-0 items-center gap-6 rounded-2xl bg-white p-6 opacity-100 shadow-lg transition-transform delay-300 duration-200 ease-in-out",
-              isDatePickerOpen && "-translate-y-[180%] delay-300",
+              isDatePickerOpen && "-translate-y-[220%] delay-300",
             )}
           >
             <FilterPanel top="110%" />
