@@ -4,12 +4,11 @@ import { useFilterStore } from "@/store/use-filters-store";
 
 export function CallToActionScreen() {
   const { currentScreen, setCurrentScreen } = useFilterStore();
-  console.log({ currentScreen });
   return (
     <div
       onClick={() => setCurrentScreen("filters")}
       className={cn(
-        "bg-background items-center justify-center gap-6 rounded-md p-4 py-6 shadow-md",
+        "items-center justify-center gap-6",
         currentScreen === "callToAction" ? "flex" : "hidden",
       )}
     >
