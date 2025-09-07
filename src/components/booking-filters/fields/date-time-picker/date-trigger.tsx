@@ -21,7 +21,7 @@ export function DateTrigger({
       className="flex cursor-pointer items-center gap-2 font-medium"
     >
       <Calendar size={16} className="text-gray-400" />
-      <span className="font-medium">{value ? value : placeholder}</span>
+      <span className="text-sm font-medium">{value ? value : placeholder}</span>
     </div>
   );
 }

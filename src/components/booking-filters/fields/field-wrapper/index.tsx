@@ -9,13 +9,16 @@ export const FieldWrapper = ({
   anchorRef,
   value,
   isDatePickerOpen,
+  className,
 }: {
   label: string;
   isPrimary?: boolean;
   onToggle: () => void;
   value: string;
-  isDatePickerOpen: boolean;
-  anchorRef: RefObject<HTMLDivElement | null>;
+  className?: string;
+
+  isDatePickerOpen?: boolean;
+  anchorRef?: RefObject<HTMLDivElement | null>;
 }) => {
   const labelStyle = isPrimary ? "text-primary font-medium" : "text-gray-500";
   return (
@@ -28,9 +31,16 @@ export const FieldWrapper = ({
       )}
     >
       <span className={cn("text-sm", labelStyle)}>{label}</span>
-      <div className="bg-secondary flex h-[40px] max-w-[180px] items-center gap-2 rounded-md px-2 whitespace-nowrap">
-        <MapPin size={30} className="text-primary" />
-        <span className="max-w-[150px] truncate overflow-hidden">{value}</span>
+      <div
+        className={cn(
+          "bg-primary/5 flex h-[40px] items-center gap-2 rounded-md px-2 whitespace-nowrap",
+          className,
+        )}
+      >
+        <MapPin size={20} className="text-primary" />
+        <span className="max-w-[110px] truncate overflow-hidden text-sm">
+          {value}
+        </span>
       </div>
     </div>
   );

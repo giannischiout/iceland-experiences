@@ -1,7 +1,7 @@
 import { create } from "zustand";
-import dayjs from "dayjs";
-import { locations, timeOptions } from "@/_mockup";
+import { timeOptions } from "@/_mockup";
 import type { DateRange } from "react-day-picker";
+import type { PickupLocation } from "@/payload-types";
 
 export enum POPOVERS {
   pickup = "pickup",
@@ -11,12 +11,13 @@ export enum POPOVERS {
   dateRange = "dateRange",
 }
 
-type Location = (typeof locations)[number];
 type TimeOption = (typeof timeOptions)[number];
+export type PopoverKey = keyof typeof POPOVERS;
 
 type FiltersState = {
-  pickup: Location;
-  dropoff: Location;
+  locations: PickupLocation[];
+  pickup: PickupLocation | null;
+  dropoff: PickupLocation | null;
   pickupTime: TimeOption;
   dropoffTime: TimeOption;
   range: {
@@ -24,31 +25,34 @@ type FiltersState = {
     to: DateRange["to"] | null;
   };
   openPopover: PopoverKey | null;
-  dayPickerMounted: false;
+  dayPickerMounted: boolean;
+  // mobile only:
+  currentScreen: "callToAction" | "filters" | "summary";
+  // isMobileOpen: boolean;
 };
 
-export type PopoverKey = keyof typeof POPOVERS; // "pickup" | "returnPickup" | ...
-
 type FiltersActions = {
-  setField: <K extends keyof FiltersState>(
-    key: K,
-    value: FiltersState[K],
-  ) => void;
-  reset: () => void;
+  setField: (key: PopoverKey, value: any) => void;
   onToggle: (popover: PopoverKey | null) => void;
+  onOpen: (popover: PopoverKey) => void;
   onClose: (key: PopoverKey) => void;
   setDateField: (range: DateRange) => void;
+  onInitLocations: (locations: PickupLocation[]) => void;
+  // mobile only:
+  setCurrentScreen: (screen: FiltersState["currentScreen"]) => void;
 };
 
 type FiltersStore = FiltersState & FiltersActions;
 
-export const createFiltersStore = (initial?: Partial<FiltersState>) =>
-  create<FiltersStore>((set, get) => ({
+export const createFiltersStore = () =>
+  create<FiltersStore>((set) => ({
+    locations: [],
+    // isMobileOpen: false,
     dayPickerMounted: false,
-    pickup: initial?.pickup || locations[0],
-    dropoff: initial?.dropoff || locations[1],
-    pickupTime: initial?.pickupTime || timeOptions[0],
-    dropoffTime: initial?.dropoffTime || timeOptions[1],
+    pickup: null,
+    dropoff: null,
+    pickupTime: timeOptions[0],
+    dropoffTime: timeOptions[1],
     range: { from: null, to: null },
     openPopover: null,
     setField: (key, value) =>
@@ -57,10 +61,8 @@ export const createFiltersStore = (initial?: Partial<FiltersState>) =>
         [key]: value,
       })),
     setDateField: (newRange) => {
-      // if (!newRange) return;
       const normalized = {
         from: newRange.from ?? null,
-        // to: newRange.to && newRange.from !== newRange.to ? newRange.to : null,
         to: newRange.to,
       };
 
@@ -68,29 +70,7 @@ export const createFiltersStore = (initial?: Partial<FiltersState>) =>
         ...state,
         range: normalized,
       }));
-      const { range } = get();
-
-      // if (range.from && range.to) {
-      //   setTimeout(() => {
-      //     set((state) => ({
-      //       ...state,
-      //       openPopover: null,
-      //     }));
-      //   }, 300); // 300ms delay
-      // }
     },
-    reset: () =>
-      set({
-        pickup: initial?.pickup || locations[0],
-        dropoff: initial?.dropoff || locations[1],
-        pickupTime: initial?.pickupTime || timeOptions[0],
-        dropoffTime: initial?.dropoffTime || timeOptions[1],
-        range: {
-          from: dayjs().toDate(),
-          to: dayjs().add(1, "day").toDate(),
-        },
-        openPopover: null,
-      }),
     onClose: (key) =>
       set((state) => ({
         ...state,
@@ -100,11 +80,32 @@ export const createFiltersStore = (initial?: Partial<FiltersState>) =>
             : state.openPopover
           : null,
       })),
+    onOpen: (key) =>
+      set((state) => ({
+        ...state,
+        openPopover: key,
+      })),
     onToggle: (popover) =>
       set((state) => ({
         ...state,
         openPopover: state.openPopover === popover ? null : popover,
       })),
+
+    onInitLocations: (loc) => {
+      set((state) => ({
+        ...state,
+        locations: loc,
+        pickup: loc[0],
+        dropoff: loc[0],
+      }));
+    },
+    // MOBILE:
+    currentScreen: "callToAction",
+    setCurrentScreen: (screen) => {
+      set({
+        currentScreen: screen,
+      });
+    },
   }));
 
 export const useFilterStore = createFiltersStore();

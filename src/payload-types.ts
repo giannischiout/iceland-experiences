@@ -78,6 +78,7 @@ export interface Config {
     tents: Tent;
     posts: Post;
     postCategories: PostCategory;
+    'pickup-locations': PickupLocation;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -95,6 +96,7 @@ export interface Config {
     tents: TentsSelect<false> | TentsSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
     postCategories: PostCategoriesSelect<false> | PostCategoriesSelect<true>;
+    'pickup-locations': PickupLocationsSelect<false> | PickupLocationsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -416,6 +418,17 @@ export interface PostCategory {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pickup-locations".
+ */
+export interface PickupLocation {
+  id: string;
+  label: string;
+  icon: 'airport' | 'busstop' | 'area';
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -464,6 +477,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'postCategories';
         value: string | PostCategory;
+      } | null)
+    | ({
+        relationTo: 'pickup-locations';
+        value: string | PickupLocation;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -701,6 +718,16 @@ export interface PostCategoriesSelect<T extends boolean = true> {
         metaTitle?: T;
         metaDescription?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pickup-locations_select".
+ */
+export interface PickupLocationsSelect<T extends boolean = true> {
+  label?: T;
+  icon?: T;
   updatedAt?: T;
   createdAt?: T;
 }

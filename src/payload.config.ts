@@ -20,6 +20,7 @@ import { getFilters } from "@/cms/endpoints/filters";
 import { Navigation } from "@/cms/collections/Globals/Navigation";
 import { PostsCategories } from "@/cms/collections/PostCategories";
 import { Posts } from "@/cms/collections/Posts";
+import { PickupLocations } from "@/cms/collections/BookingFIlters/pickup-locations";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -49,6 +50,7 @@ export default buildConfig({
     defaultLocale: "en",
     fallback: true,
   },
+  globals: [Navigation],
   collections: [
     Users,
     Media,
@@ -62,6 +64,8 @@ export default buildConfig({
     //
     Posts,
     PostsCategories,
+    // Booking Filters:
+    PickupLocations,
   ],
   endpoints: [
     {
@@ -70,7 +74,6 @@ export default buildConfig({
       handler: getFilters,
     },
   ],
-  globals: [Navigation],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || "",
   typescript: {

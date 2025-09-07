@@ -3,6 +3,7 @@ import "./styles.css";
 import "simplebar-react/dist/simplebar.min.css";
 import { satoshi } from "src/app/fonts/satoshi";
 import { Nav } from "@/components/nav";
+import { QueryProvider } from "@/components/query-provider";
 
 export const metadata = {
   description: "A blank template using Payload in a Next.js app.",
@@ -20,12 +21,14 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
 
   return (
     <html lang="en">
-      <body className={satoshi.variable}>
-        <section className="m-auto">
-          <Nav />
-          {children}
-        </section>
-      </body>
+      <QueryProvider>
+        <body className={satoshi.variable}>
+          <section className="m-auto">
+            <Nav />
+            {children}
+          </section>
+        </body>
+      </QueryProvider>
     </html>
   );
 }

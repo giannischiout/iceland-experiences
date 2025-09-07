@@ -2,8 +2,11 @@ import { DayPicker as ReactDayPicker } from "react-day-picker";
 import type { DateRange } from "react-day-picker";
 import { useFilterStore } from "@/store/use-filters-store";
 
-export function DayPicker() {
-  const { range, setDateField, onClose } = useFilterStore();
+type Props = {
+  numberOfMonths?: number;
+};
+export function DayPicker({ numberOfMonths = 2 }: Props) {
+  const { range, setDateField } = useFilterStore();
 
   const onChange = (r: DateRange | undefined) => {
     if (!r) return;
@@ -18,7 +21,7 @@ export function DayPicker() {
         to: range.to || undefined,
       }}
       onSelect={onChange}
-      numberOfMonths={2}
+      numberOfMonths={numberOfMonths}
       pagedNavigation={false}
     />
   );

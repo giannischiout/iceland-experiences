@@ -20,7 +20,7 @@ type Props = {
   onChange: (option: TimeOption) => void;
   onToggle: () => void;
   alignRight?: boolean;
-  top: string;
+  top?: string;
 };
 
 export function TimeTrigger({

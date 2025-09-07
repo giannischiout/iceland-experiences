@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import { pickupIcons } from "@/_mockup";
 import type { RefObject } from "react";
 import { FieldWrapper } from "@/components/booking-filters/fields/field-wrapper";
+import type { PickupLocation } from "@/payload-types";
 
 type Value = {
   value: string;
@@ -12,7 +13,7 @@ type Value = {
 
 type Props = {
   options: Value[];
-  value: Value;
+  value: PickupLocation | null;
   onChange: (value: Value) => void;
   open: boolean;
   anchorRef: RefObject<HTMLDivElement | null>;
@@ -50,7 +51,7 @@ export function SelectPickup({
         isPrimary
         anchorRef={anchorRef}
         label={label}
-        value={value.label}
+        value={value?.label ?? "Select location"}
       />
       <Popover
         top={top}
@@ -61,7 +62,7 @@ export function SelectPickup({
       >
         <div className="min-w-[200px]">
           {options.map((option, index) => {
-            const isActive = option.value === value.value;
+            const isActive = option.value === value?.id;
             return (
               <div
                 key={option.value}
