@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 export const HeaderSection = ({ hidden }: { hidden: boolean }) => (
   <div
     className={cn(
-      "z-10 flex max-w-[700px] flex-col gap-2 text-center text-amber-50 transition-all duration-400 ease-in-out",
+      "text-background z-10 flex flex-col gap-2 text-center transition-all duration-400 ease-in-out",
       hidden && "opacity-0",
     )}
   >

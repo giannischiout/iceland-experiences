@@ -79,7 +79,7 @@ const NavItem = ({
       onMouseLeave={onMouseLeave}
       onClick={onClick}
       className={cn(
-        "transition-color hover:bg-primary/10 hidden cursor-pointer items-center gap-1 rounded-full bg-white px-4 py-1 text-[1.1rem] text-nowrap text-gray-500 duration-500 ease-in-out lg:flex",
+        "transition-color hover:bg-primary/10 hidden cursor-pointer items-center gap-1 rounded-full px-4 py-1 text-[1rem] text-nowrap text-gray-500 duration-500 ease-in-out lg:flex",
       )}
     >
       {label}

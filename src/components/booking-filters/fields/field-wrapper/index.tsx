@@ -33,7 +33,7 @@ export const FieldWrapper = ({
       <span className={cn("text-sm", labelStyle)}>{label}</span>
       <div
         className={cn(
-          "bg-primary/5 flex h-[40px] items-center gap-2 rounded-md px-2 whitespace-nowrap",
+          "border-primary/20 flex h-[40px] items-center gap-2 rounded-md border px-2 whitespace-nowrap",
           className,
         )}
       >

@@ -8,7 +8,7 @@ export function HeroFilters() {
   const { openPopover } = useFilterStore();
   const isDatePickerOpen = openPopover === "dateRange";
   return (
-    <>
+    <div className="z-20 flex flex-col gap-4">
       <HeaderSection hidden={isDatePickerOpen} />
       <div
         className={cn(
@@ -18,6 +18,6 @@ export function HeroFilters() {
       >
         <FilterPanel top="110%" />
       </div>
-    </>
+    </div>
   );
 }

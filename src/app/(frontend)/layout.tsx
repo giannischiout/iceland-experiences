@@ -23,7 +23,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
     <html lang="en">
       <QueryProvider>
         <body className={satoshi.variable}>
-          <section className="m-auto">
+          <section className="m-auto w-[87%]">
             <Nav />
             {children}
           </section>

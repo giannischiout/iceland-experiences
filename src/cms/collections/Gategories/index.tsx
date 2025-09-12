@@ -43,7 +43,12 @@ const Categories: CollectionConfig = {
       relationTo: "media",
       required: true,
     },
-
+    {
+      name: "landscape_image",
+      type: "upload",
+      relationTo: "media",
+      required: true,
+    },
     {
       name: "siteKey",
       type: "text",

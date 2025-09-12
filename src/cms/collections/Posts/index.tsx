@@ -80,6 +80,14 @@ export const Posts: CollectionConfig = {
       ],
     },
     {
+      name: "short_description",
+      type: "textarea",
+    },
+    {
+      name: "read",
+      type: "textarea",
+    },
+    {
       name: "description",
       type: "richText",
     },

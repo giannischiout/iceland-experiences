@@ -190,6 +190,7 @@ export interface Category {
   slug?: string | null;
   description?: string | null;
   image: string | Media;
+  landscape_image: string | Media;
   /**
    * Optional site identifier if you want to group categories by site
    */
@@ -379,6 +380,8 @@ export interface Post {
         id?: string | null;
       }[]
     | null;
+  short_description?: string | null;
+  read?: string | null;
   description?: {
     root: {
       type: string;
@@ -573,6 +576,7 @@ export interface CategoriesSelect<T extends boolean = true> {
   slug?: T;
   description?: T;
   image?: T;
+  landscape_image?: T;
   siteKey?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -695,6 +699,8 @@ export interface PostsSelect<T extends boolean = true> {
         tag?: T;
         id?: T;
       };
+  short_description?: T;
+  read?: T;
   description?: T;
   meta?:
     | T

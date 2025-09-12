@@ -44,7 +44,7 @@ export function FiltersDesktop({ top = "110%" }: { top: string }) {
   const isDatePickerOpen = openPopover === "dateRange";
 
   return (
-    <div className="flex items-end justify-center gap-4">
+    <div className="desktop-filters max-h-[70px] items-end justify-center gap-4">
       <div className="flex items-end gap-2">
         <SelectPickup
           top={top}

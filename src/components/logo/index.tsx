@@ -5,8 +5,9 @@ export const Logo = () => {
     <Image
       priority
       src="/assets/hederson.png"
-      width={60}
-      height={60}
+      width={50}
+      height={50}
+      className="rounded-full"
       alt="logo"
     />
   );

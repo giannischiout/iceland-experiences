@@ -14,7 +14,7 @@
   --primary-dark: oklch(0.48 0.08 139.835); /* darker tone */
   --primary-foreground: oklch(0.985 0 0); /* white text */
   /* Base Colors */
-  --background: oklch(1 0 89.876);
+  --background: oklch(0.969 0.004 106.473);
   --foreground: oklch(0.15 0 0);
   /* Components based on primary shades */
   --card: var(--primary-light);
@@ -28,13 +28,15 @@
   --accent-foreground: var(--foreground);
   /* Muted & Borders */
   --muted: var(--primary-lighter);
-  --muted-foreground: oklch(0.4 0.02 139.835);
+  --muted-foreground: oklch(0.318 0.001 17.232);
   --border: oklch(0.9 0.01 139.835);
   --input: var(--border);
   --ring: var(--primary);
   /* Other */
   --destructive: oklch(0.577 0.245 27.325);
   /* custom */
+  --text-on-dark: oklch(0.95 0.01 0);
+  --text-on-dark-light: oklch(0.929 0.005 17.255);
   --border-dark: oklch(0.773 0 89.876);
 }
 
@@ -98,6 +100,25 @@ svg {
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 }
 
+/* Show item on mobile (up to 960px) */
+@media (max-width: 960px) {
+  .mobile-filters {
+    display: block;   /* show */
+  }
+  .desktop-filters {
+    display: none;    /* hide */
+  }
+}
+
+/* Show item on desktop (above 960px) */
+@media (min-width: 961px) {
+  .mobile-filters {
+    display: none;    /* hide */
+  }
+  .desktop-filters  {
+    display: flex;   /* show */
+  }
+}
 
 .nav_item {
   position: relative;

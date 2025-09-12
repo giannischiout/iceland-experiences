@@ -4,10 +4,10 @@ import { SummaryScreen } from "@/components/booking-filters/filters-mobile/compo
 
 export function FiltersMobile() {
   return (
-    <>
+    <div className="mobile-filters">
       <CallToActionScreen />
       <FiltersScreen />
       <SummaryScreen />
-    </>
+    </div>
   );
 }

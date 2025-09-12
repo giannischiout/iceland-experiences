@@ -1,30 +1,40 @@
+"use client";
 import Image from "next/image";
-import { HeroFilters } from "@/sections/home/hero/filters";
+import { FilterPanel } from "@/components/booking-filters";
+import { cn } from "@/lib/utils";
 
 export function Hero() {
   return (
-    <section className="relative flex h-[calc(100vh-80px)] w-full flex-col items-center overflow-hidden">
-      <div className="relative flex w-full flex-1">
-        <BackgroundImage />
-        <div className="z-20 flex h-full w-full flex-1 flex-col items-center justify-center gap-12">
-          <HeroFilters />
+    <section className="container mx-auto flex w-full flex-col rounded-lg">
+      <div className="relative flex min-h-[50vh] w-full flex-col items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 z-10 rounded-lg bg-gradient-to-t from-black/40 to-transparent" />
+        <div
+          className={cn(
+            "text-background absolute z-10 flex translate-y-1/2 flex-col gap-2 text-center transition-all duration-400 ease-in-out",
+          )}
+        >
+          <h1 className="text-6xl font-bold">Gear up. Go Anywhere</h1>
+          <h1 className="text-3xl font-light">Your expedition our wheels</h1>
         </div>
+        <BackgroundImage />
       </div>
-      <div className="flex h-[12vh] items-center justify-center bg-red-100" />
+      {/*<HeroFilters />*/}
+      <div className="relative z-2 z-10 mx-auto mt-[-50px] rounded-lg bg-white p-6">
+        <FilterPanel top="110%" />
+      </div>
+
+      <div className="flex h-full items-center p-2" />
     </section>
   );
 }
 
 function BackgroundImage() {
   return (
-    <>
-      <div className="absolute z-1 h-full w-full rounded-lg bg-black/20" />
-      <Image
-        alt="background image"
-        fill
-        src="/assets/camper.jpg"
-        className="rounded-lg object-cover object-center saturate-50"
-      />
-    </>
+    <Image
+      alt="background image"
+      fill
+      src="/assets/background.jpg"
+      className="rounded-lg object-cover object-center brightness-95 contrast-105 hue-rotate-20"
+    />
   );
 }

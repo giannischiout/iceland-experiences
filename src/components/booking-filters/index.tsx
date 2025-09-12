@@ -4,11 +4,9 @@ import { usePayloadQuery } from "@/actions/use-react-query";
 import type { PickupLocation } from "@/payload-types";
 import { useEffect } from "react";
 import { FiltersMobile } from "@/components/booking-filters/filters-mobile";
-import { useResponsive } from "@/hooks/use-responsive";
 
 export function FilterPanel({ top = "110%" }: { top: string }) {
   const { locations, onInitLocations } = useFilterStore();
-  const { isSmaller } = useResponsive(963);
   const { data } = usePayloadQuery<PickupLocation>({
     collection: "pickup-locations",
     params: { limit: 100 },
@@ -20,5 +18,10 @@ export function FilterPanel({ top = "110%" }: { top: string }) {
     }
   }, [data, locations, onInitLocations]);
 
-  return <>{isSmaller ? <FiltersMobile /> : <FiltersDesktop top={top} />}</>;
+  return (
+    <>
+      <FiltersMobile />
+      <FiltersDesktop top={top} />
+    </>
+  );
 }
